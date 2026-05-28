@@ -386,17 +386,16 @@
             position: relative;
             height: calc(100vh - 96px);
             overflow: auto;
+            padding: 72px 24px 120px;
             background:
                 radial-gradient(circle, #cfd7df 1px, transparent 1px) 0 0 / 28px 28px,
                 #fbfcfd;
         }
 
         .flow {
-            position: absolute;
-            left: 50%;
-            top: 128px;
+            position: relative;
             width: min(460px, calc(100vw - 48px));
-            transform: translateX(-50%);
+            margin: 0 auto;
             display: grid;
             justify-items: center;
         }
@@ -411,19 +410,20 @@
             color: white;
             font-size: 25px;
             font-weight: 900;
+            box-shadow: 0 14px 26px rgba(227, 27, 35, .18);
         }
 
         .line {
             width: 2px;
-            height: 58px;
-            background: #111827;
+            height: 42px;
+            background: #1f2937;
         }
 
         .response-node {
             width: 100%;
             border: 1px solid var(--line-soft);
             border-radius: 18px;
-            padding: 28px 22px 20px;
+            padding: 24px;
             background: #f6f8fa;
             box-shadow: var(--shadow);
         }
@@ -434,13 +434,15 @@
         }
 
         .keyword-box {
-            min-height: 74px;
+            min-height: 64px;
             display: flex;
             align-items: center;
             border-radius: 14px;
             background: white;
-            padding: 0 14px;
-            font-size: 22px;
+            padding: 0 16px;
+            color: #1f2937;
+            font-size: 20px;
+            box-shadow: inset 0 0 0 1px var(--line-soft);
         }
 
         .bot-nodes {
@@ -453,7 +455,7 @@
             width: 100%;
             border: 1px solid var(--line-soft);
             border-radius: 18px;
-            padding: 22px;
+            padding: 20px;
             background: white;
             box-shadow: var(--shadow);
         }
@@ -466,10 +468,16 @@
             margin-bottom: 14px;
         }
 
+        .bot-node-title {
+            display: grid;
+            gap: 8px;
+        }
+
         .bot-node h2 {
             margin: 0;
             color: var(--navy);
-            font-size: 21px;
+            font-size: 20px;
+            line-height: 1.25;
         }
 
         .node-pill {
@@ -485,7 +493,7 @@
         }
 
         .node-message {
-            min-height: 58px;
+            min-height: 60px;
             display: flex;
             align-items: center;
             border-radius: 12px;
@@ -504,6 +512,7 @@
             color: var(--brand);
             font-size: 20px;
             font-weight: 900;
+            flex: 0 0 auto;
         }
 
         .add-node {
@@ -517,26 +526,33 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 18px;
+            gap: 12px;
             border: 1px solid var(--line-soft);
             border-radius: 18px;
             background: #f6f8fa;
             color: var(--text);
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 900;
             box-shadow: 0 10px 26px rgba(23, 35, 50, .04);
         }
 
+        .add-response:hover {
+            border-color: rgba(227, 27, 35, .45);
+            background: #fff;
+            color: var(--brand);
+        }
+
         .plus {
-            font-size: 38px;
+            font-size: 32px;
             line-height: 1;
         }
 
         .menu {
             position: absolute;
-            left: calc(100% - 28px);
-            top: 0;
-            width: 180px;
+            right: 0;
+            top: calc(100% + 10px);
+            z-index: 5;
+            width: 220px;
             display: none;
             grid-template-columns: 1fr;
             border-radius: 10px;
@@ -555,7 +571,10 @@
             color: #283441;
         }
 
-        .menu button:hover { background: #eefbff; }
+        .menu button:hover {
+            background: rgba(227, 27, 35, .06);
+            color: var(--brand);
+        }
 
         .zoom {
             position: absolute;
@@ -777,8 +796,8 @@
                             <button class="tool" type="button"><i>I</i></button>
                             <button class="tool" type="button"><u>U</u></button>
                             <button class="tool" type="button"><s>S</s></button>
-                            <button class="tool" type="button">☷</button>
-                            <button class="tool" type="button">☰</button>
+                            <button class="tool" type="button">-</button>
+                            <button class="tool" type="button">1.</button>
                         </div>
                         <textarea class="textarea" id="timeoutMessage" maxlength="1024" placeholder="Write something awesome, example Terima kasih telah berbicara dengan tim dukungan kami! Bila memiliki pertanyaan lain, silakan menghubungi kami kembali."></textarea>
                     </div>
@@ -803,7 +822,7 @@
                             <button class="tool" type="button"><i>I</i></button>
                             <button class="tool" type="button"><u>U</u></button>
                             <button class="tool" type="button"><s>S</s></button>
-                            <button class="tool" type="button">☷</button>
+                            <button class="tool" type="button">1.</button>
                         </div>
                         <textarea class="textarea" id="startAgent" maxlength="1024" placeholder="Write something awesome..."></textarea>
                     </div>
@@ -828,7 +847,7 @@
                             <button class="tool" type="button"><i>I</i></button>
                             <button class="tool" type="button"><u>U</u></button>
                             <button class="tool" type="button"><s>S</s></button>
-                            <button class="tool" type="button">☷</button>
+                            <button class="tool" type="button">1.</button>
                         </div>
                         <textarea class="textarea" id="resolveAgent" maxlength="1024" placeholder="Write something awesome..."></textarea>
                     </div>
@@ -875,9 +894,9 @@
 
             <div class="zoom" aria-label="Canvas controls">
                 <button type="button">+</button>
-                <button type="button">−</button>
-                <button type="button">⌗</button>
-                <button type="button">▣</button>
+                <button type="button">-</button>
+                <button type="button">[]</button>
+                <button type="button">#</button>
             </div>
             <div class="minimap" aria-hidden="true"></div>
         </div>
@@ -947,11 +966,11 @@
         botNodes.innerHTML = flowNodes.map((node, index) => `
             <div class="bot-node" data-flow-node="${node.id}">
                 <header>
-                    <div>
+                    <div class="bot-node-title">
                         <span class="node-pill">Flow ${index + 1}</span>
                         <h2>${escapeHtml(node.title)}</h2>
                     </div>
-                    <button class="remove-node" type="button" title="Hapus flow" data-remove-node="${node.id}">×</button>
+                    <button class="remove-node" type="button" title="Hapus flow" data-remove-node="${node.id}">x</button>
                 </header>
                 <div class="node-message">${escapeHtml(node.message)}</div>
             </div>
@@ -967,6 +986,7 @@
             message: defaultMessage(type),
         });
         renderFlowNodes();
+        document.querySelector('.add-node').scrollIntoView({ block: 'center', behavior: 'smooth' });
     }
 
     async function submitFlow(status) {
@@ -1020,6 +1040,12 @@
 
     document.querySelector('[data-action="open-menu"]').addEventListener('click', () => {
         responseMenu.classList.toggle('open');
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('.add-node')) {
+            responseMenu.classList.remove('open');
+        }
     });
 
     responseMenu.querySelectorAll('button').forEach((button) => {
