@@ -313,6 +313,7 @@
 
         .app[data-setup-complete="true"] .builder-actions { display: flex; }
         .app[data-section="ads"] .builder-actions { display: none; }
+        .app[data-template-view="list"] .builder-actions { display: none; }
 
         .workspace {
             display: none;
@@ -320,6 +321,662 @@
 
         .workspace.active {
             display: block;
+        }
+
+        .template-view {
+            display: none;
+        }
+
+        .template-view.active {
+            display: block;
+        }
+
+        .template-view.template-builder-grid {
+            display: none;
+        }
+
+        .template-view.template-builder-grid.active {
+            display: grid;
+        }
+
+        .interactive-list {
+            display: grid;
+            gap: 28px;
+            padding-top: 4px;
+        }
+
+        .interactive-list-actions {
+            display: grid;
+            grid-template-columns: 1fr minmax(280px, 520px);
+            gap: 18px;
+            align-items: end;
+        }
+
+        .create-interactive-btn {
+            grid-column: 2;
+            justify-self: end;
+            min-width: 304px;
+            min-height: 58px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            border: 0;
+            border-radius: 8px;
+            background: #ff0038;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 900;
+        }
+
+        .create-interactive-btn .plus {
+            font-size: 30px;
+            line-height: 1;
+        }
+
+        .interactive-search {
+            position: relative;
+            grid-column: 2;
+        }
+
+        .interactive-search::before {
+            content: "";
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #9aa3ad;
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+
+        .interactive-search::after {
+            content: "";
+            position: absolute;
+            left: 34px;
+            top: 32px;
+            width: 9px;
+            height: 2px;
+            border-radius: 999px;
+            background: #9aa3ad;
+            transform: rotate(45deg);
+        }
+
+        .interactive-search input {
+            width: 100%;
+            min-height: 46px;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            background: #fff;
+            padding: 0 18px 0 58px;
+            color: var(--text);
+        }
+
+        .interactive-table-wrap {
+            overflow-x: auto;
+        }
+
+        .interactive-table {
+            width: 100%;
+            min-width: 1180px;
+            border-collapse: collapse;
+            color: var(--navy);
+        }
+
+        .interactive-table th,
+        .interactive-table td {
+            border-bottom: 1px solid #dde2e8;
+            padding: 19px 8px;
+            text-align: left;
+            vertical-align: middle;
+            font-size: 16px;
+        }
+
+        .interactive-table th {
+            font-weight: 900;
+        }
+
+        .sort-mark {
+            display: inline-grid;
+            gap: 2px;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        .sort-mark::before,
+        .sort-mark::after {
+            content: "";
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+        }
+
+        .sort-mark::before {
+            border-bottom: 5px solid #d2d6dc;
+        }
+
+        .sort-mark::after {
+            border-top: 5px solid #d2d6dc;
+        }
+
+        .qr-btn {
+            min-width: 96px;
+            min-height: 38px;
+            border: 1px solid var(--navy);
+            border-radius: 6px;
+            background: #fff;
+            color: var(--navy);
+            font-weight: 800;
+        }
+
+        .qr-btn:disabled {
+            border-color: #d2d6dc;
+            color: #c8ccd1;
+            background: #fff;
+            cursor: default;
+        }
+
+        .row-actions {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            color: #a5abb3;
+        }
+
+        .icon-action {
+            width: 22px;
+            height: 22px;
+            display: inline-grid;
+            place-items: center;
+            border: 0;
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        .icon-action svg {
+            width: 20px;
+            height: 20px;
+            display: block;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .icon-action:hover {
+            color: var(--navy);
+        }
+
+        .status-toggle {
+            width: 34px;
+            height: 20px;
+            border: 1px solid #9aa3ad;
+            border-radius: 999px;
+            background: #fff;
+            padding: 2px;
+        }
+
+        .status-toggle::before {
+            content: "";
+            display: block;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #9aa3ad;
+        }
+
+        .status-toggle.active {
+            border-color: #ff0038;
+            background: #ff0038;
+        }
+
+        .status-toggle.active::before {
+            margin-left: auto;
+            background: #fff;
+        }
+
+        .table-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            color: var(--navy);
+        }
+
+        .per-page-control {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .per-page-control select {
+            min-width: 74px;
+            min-height: 38px;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            background: #fff;
+            padding: 0 12px;
+        }
+
+        .pagination-current {
+            min-width: 34px;
+            min-height: 34px;
+            display: grid;
+            place-items: center;
+            border-radius: 6px;
+            background: var(--navy);
+            color: #fff;
+            font-weight: 900;
+        }
+
+        .session-settings-page {
+            display: grid;
+            gap: 24px;
+            width: 100%;
+        }
+
+        .session-steps {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 26px;
+            padding: 0 8px 10px;
+        }
+
+        .session-steps::before {
+            content: "";
+            position: absolute;
+            top: 18px;
+            left: 8%;
+            right: 8%;
+            height: 1px;
+            background: rgba(17, 24, 39, .18);
+        }
+
+        .session-step {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            justify-items: center;
+            gap: 12px;
+            color: var(--navy);
+            font-size: 14px;
+            font-weight: 900;
+            text-align: center;
+        }
+
+        .session-step-badge {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: #fff;
+            color: var(--navy);
+            border: 1px solid var(--line);
+            font-weight: 900;
+        }
+
+        .session-step.active .session-step-badge {
+            background: var(--brand);
+            border-color: var(--brand);
+            color: #fff;
+        }
+
+        .session-step.done .session-step-badge {
+            background: var(--navy);
+            border-color: var(--navy);
+            color: #fff;
+        }
+
+        .session-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .session-card {
+            display: grid;
+            gap: 22px;
+            border: 1px solid var(--line-soft);
+            border-radius: 12px;
+            background: #fff;
+            padding: 26px;
+            box-shadow: 0 12px 28px rgba(23, 35, 50, .04);
+        }
+
+        .session-card h2 {
+            margin: 0 0 6px;
+            color: var(--navy);
+            font-size: 20px;
+        }
+
+        .session-card p {
+            margin: 0;
+            color: #7b8794;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .session-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .session-field {
+            display: grid;
+            gap: 10px;
+        }
+
+        .session-field label,
+        .session-message-card > span {
+            color: var(--navy);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .session-input,
+        .session-select,
+        .session-textarea {
+            width: 100%;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #fff;
+            color: var(--text);
+            padding: 0 16px;
+        }
+
+        .session-input,
+        .session-select {
+            min-height: 58px;
+        }
+
+        .session-input-wrap {
+            position: relative;
+        }
+
+        .session-input-wrap .session-input {
+            padding-right: 86px;
+        }
+
+        .session-input-suffix {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            color: #8b95a1;
+            font-size: 13px;
+            font-weight: 800;
+            transform: translateY(-50%);
+        }
+
+        .session-message-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.25fr) minmax(360px, .85fr);
+            gap: 22px;
+        }
+
+        .session-message-card {
+            display: grid;
+            gap: 12px;
+            border: 1px solid var(--line-soft);
+            border-radius: 12px;
+            background: #fff;
+            padding: 18px;
+        }
+
+        .session-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            min-height: 46px;
+            border: 1px solid var(--line-soft);
+            border-radius: 8px 8px 0 0;
+            padding: 8px 12px;
+        }
+
+        .session-toolbar select {
+            min-width: 120px;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            background: #fff;
+            padding: 7px 10px;
+            color: #526578;
+            font-size: 13px;
+        }
+
+        .session-tool {
+            border: 0;
+            background: transparent;
+            color: #526578;
+            font-weight: 900;
+        }
+
+        .session-textarea {
+            min-height: 164px;
+            border-top: 0;
+            border-radius: 0 0 8px 8px;
+            padding: 16px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        .session-preview {
+            min-height: 180px;
+            border-radius: 12px;
+            padding: 20px;
+            background-color: #eee8df;
+            background-image:
+                radial-gradient(circle at 16px 18px, rgba(120, 110, 100, .08) 0 5px, transparent 6px),
+                radial-gradient(circle at 68px 48px, rgba(120, 110, 100, .08) 0 10px, transparent 11px),
+                radial-gradient(circle at 145px 24px, rgba(120, 110, 100, .08) 0 7px, transparent 8px);
+            background-size: 120px 86px;
+        }
+
+        .session-review-page {
+            display: grid;
+            gap: 34px;
+        }
+
+        .session-review-page .ads-steps {
+            display: none;
+        }
+
+        .session-review-main {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 430px;
+            gap: 28px;
+            align-items: start;
+        }
+
+        .session-cost-note {
+            margin-top: 14px;
+            color: #526578;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .template-builder-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(720px, 820px);
+            gap: 18px;
+            align-items: start;
+        }
+
+        .template-builder-grid .screen {
+            min-width: 0;
+        }
+
+        .flow-editor-panel {
+            position: sticky;
+            top: 18px;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 360px;
+            gap: 14px;
+            align-items: start;
+            max-height: calc(100vh - 128px);
+            overflow: auto;
+        }
+
+        #flowEditorMount {
+            min-width: 0;
+        }
+
+        .flow-editor-empty {
+            grid-column: 1;
+            border: 1px solid var(--line-soft);
+            border-radius: 8px;
+            background: #fff;
+            padding: 18px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        .flow-editor-panel.has-selection .flow-editor-empty {
+            display: none;
+        }
+
+        .flow-editor-panel:not(.has-selection) .text-drawer {
+            display: none;
+        }
+
+        .flow-preview-card {
+            grid-column: 2;
+            border: 1px solid var(--line-soft);
+            border-radius: 8px;
+            background: #fff;
+            overflow: hidden;
+            box-shadow: 0 12px 28px rgba(23, 35, 50, .05);
+        }
+
+        .flow-preview-head {
+            padding: 16px 18px;
+            border-bottom: 1px solid var(--line-soft);
+        }
+
+        .flow-preview-head h3 {
+            margin: 0;
+            color: var(--navy);
+            font-size: 18px;
+        }
+
+        .wa-phone {
+            margin: 18px auto 22px;
+            width: min(320px, calc(100% - 32px));
+            min-height: 520px;
+            border: 10px solid #e8e8e8;
+            border-radius: 34px;
+            background: #f7f3ee;
+            overflow: hidden;
+            box-shadow: 0 18px 44px rgba(15, 23, 42, .14);
+        }
+
+        .wa-phone-top {
+            min-height: 78px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 18px 16px 12px;
+            background: #07896f;
+            color: #fff;
+        }
+
+        .wa-back {
+            font-size: 26px;
+            line-height: 1;
+        }
+
+        .wa-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #d9e2e8;
+            flex: 0 0 auto;
+        }
+
+        .wa-contact {
+            display: grid;
+            line-height: 1.1;
+        }
+
+        .wa-contact strong {
+            font-size: 18px;
+        }
+
+        .wa-contact span {
+            color: rgba(255,255,255,.86);
+            font-size: 13px;
+        }
+
+        .wa-menu-dot {
+            margin-left: auto;
+            font-size: 28px;
+            line-height: 1;
+        }
+
+        .wa-chat {
+            min-height: 430px;
+            padding: 14px;
+            background-color: #eee8df;
+            background-image:
+                radial-gradient(circle at 16px 18px, rgba(120, 110, 100, .08) 0 5px, transparent 6px),
+                radial-gradient(circle at 68px 48px, rgba(120, 110, 100, .08) 0 10px, transparent 11px),
+                radial-gradient(circle at 145px 24px, rgba(120, 110, 100, .08) 0 7px, transparent 8px);
+            background-size: 120px 86px;
+        }
+
+        .wa-message {
+            display: grid;
+            gap: 8px;
+            max-width: 88%;
+            border-radius: 8px;
+            background: #fff;
+            padding: 10px;
+            color: #1f2937;
+            font-size: 12px;
+            line-height: 1.45;
+            box-shadow: 0 8px 16px rgba(0,0,0,.05);
+        }
+
+        .wa-message-header {
+            border-radius: 6px;
+            background: #eef3f8;
+            padding: 9px;
+            color: var(--navy);
+            font-weight: 800;
+        }
+
+        .wa-message-header img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 6px;
+            display: block;
+        }
+
+        .wa-message-time {
+            justify-self: end;
+            color: #8b9bab;
+            font-size: 10px;
+        }
+
+        .wa-options {
+            display: grid;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .wa-option {
+            min-height: 28px;
+            display: grid;
+            place-items: center;
+            border-top: 1px solid #edf0f2;
+            color: #0785d1;
+            font-weight: 700;
         }
 
         .ads-page {
@@ -2035,6 +2692,30 @@
             transform: translateX(0);
         }
 
+        .flow-editor-panel .text-drawer {
+            position: static;
+            width: 100%;
+            height: auto;
+            min-height: 0;
+            display: grid;
+            border: 1px solid var(--line-soft);
+            border-radius: 8px;
+            box-shadow: 0 12px 28px rgba(23, 35, 50, .05);
+            transform: none;
+            transition: none;
+            z-index: auto;
+            overflow: hidden;
+        }
+
+        .flow-editor-panel .drawer-body {
+            max-height: none;
+        }
+
+        .flow-editor-panel .drawer-close,
+        .flow-editor-panel [data-drawer-close] {
+            display: none;
+        }
+
         .drawer-head,
         .drawer-foot {
             display: flex;
@@ -2184,9 +2865,9 @@
         }
 
         .zoom {
-            position: absolute;
-            left: 24px;
-            bottom: 24px;
+            position: fixed;
+            left: 416px;
+            bottom: 18px;
             display: grid;
             width: 54px;
             border: 1px solid var(--line);
@@ -2194,7 +2875,7 @@
             background: white;
             box-shadow: 0 10px 20px rgba(17, 24, 39, .08);
             overflow: hidden;
-            z-index: 3;
+            z-index: 30;
         }
 
         .zoom button {
@@ -2265,46 +2946,6 @@
             color: var(--brand);
         }
 
-        .minimap {
-            position: absolute;
-            right: 24px;
-            bottom: 24px;
-            width: 224px;
-            height: 168px;
-            border: 8px solid #dedede;
-            border-radius: 8px;
-            background: white;
-            box-shadow: 0 10px 20px rgba(17, 24, 39, .08);
-            overflow: hidden;
-            z-index: 3;
-        }
-
-        .minimap-track {
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(circle, rgba(207, 215, 223, .75) 1px, transparent 1px) 0 0 / 18px 18px,
-                #fff;
-        }
-
-        .minimap-content {
-            position: absolute;
-            left: 0;
-            top: 0;
-            border-radius: 8px;
-            background: rgba(0, 26, 65, .12);
-            box-shadow: inset 0 0 0 1px rgba(0, 26, 65, .08);
-        }
-
-        .minimap-viewport {
-            position: absolute;
-            border: 2px solid var(--brand);
-            border-radius: 8px;
-            background: rgba(227, 27, 35, .08);
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, .7) inset;
-            pointer-events: none;
-        }
-
         .screen { display: none; }
         .screen.active { display: block; }
 
@@ -2354,6 +2995,49 @@
             .builder-actions {
                 justify-content: stretch;
             }
+
+            .zoom {
+                left: 18px;
+            }
+
+            .interactive-list-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .create-interactive-btn,
+            .interactive-search {
+                grid-column: auto;
+                justify-self: stretch;
+                width: 100%;
+            }
+
+            .session-grid,
+            .session-message-grid,
+            .session-review-main {
+                grid-template-columns: 1fr;
+            }
+
+            .session-steps {
+                gap: 12px;
+            }
+
+            .template-builder-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .flow-editor-panel {
+                position: static;
+                grid-template-columns: 1fr;
+                max-height: none;
+            }
+
+            .flow-preview-card {
+                grid-column: auto;
+            }
+
+            .flow-editor-empty {
+                grid-column: auto;
+            }
         }
 
         @media (max-width: 760px) {
@@ -2365,7 +3049,6 @@
 
             .example { grid-template-columns: 1fr; }
             .builder-actions .btn { flex: 1 1 150px; }
-            .minimap { display: none; }
             .menu {
                 left: auto;
                 right: 0;
@@ -2454,7 +3137,7 @@
         </div>
     </aside>
 
-    <section class="app content-shell" id="app" data-step="0" data-setup-complete="false">
+    <section class="app content-shell" id="app" data-step="0" data-setup-complete="false" data-template-view="list">
         <header class="topbar">
             <div class="topbar-help">Butuh Bantuan? <span class="topbar-icon">?</span></div>
             <div class="topbar-user">Kos Annisa <span class="topbar-icon">◯</span></div>
@@ -2477,42 +3160,479 @@
             </div>
 
             <section class="workspace active" id="templateWorkspace">
-                <section class="screen active" data-screen="0">
-                    <div class="builder" id="builderCanvas">
-                        <div class="builder-stage" id="builderStage">
-                            <div class="flow-shell" id="flowShell">
-                                <div class="flow">
-                                    <div class="start-node">Start</div>
-                                    <div class="line"></div>
-                                    <div class="response-node">
-                                        <h2>User Response</h2>
-                                        <div class="keyword-box" id="userKeywordPreview">Any Keyword Send</div>
-                                    </div>
-                                    <div class="line"></div>
-                                    <div class="bot-nodes" id="botNodes"></div>
-                                </div>
-                            </div>
+                <section class="template-view active" id="interactiveListPage">
+                    <div class="interactive-list">
+                        <div class="interactive-list-actions">
+                            <button class="create-interactive-btn" type="button" id="createInteractiveButton">
+                                <span class="plus">+</span>
+                                <span>Buat WA Interaktif</span>
+                            </button>
+                            <label class="interactive-search">
+                                <input id="interactiveSearchInput" type="search" placeholder="Cari ID Interaktif atau Nama Interaktif">
+                            </label>
                         </div>
 
-                        <div class="zoom" aria-label="Canvas controls">
-                            <button type="button" data-zoom-action="in">+</button>
-                            <button type="button" data-zoom-action="out">-</button>
-                            <button type="button" data-zoom-action="preset-toggle" id="zoomPresetToggle">100%</button>
-                            <button type="button" data-zoom-action="fit">FIT</button>
-                            <div class="zoom-presets" id="zoomPresets">
-                                <button type="button" data-zoom-preset="1">100%</button>
-                                <button type="button" data-zoom-preset="0.75">75%</button>
-                                <button type="button" data-zoom-preset="0.5">50%</button>
-                                <button type="button" data-zoom-preset="0.25">25%</button>
-                            </div>
+                        <div class="interactive-table-wrap">
+                            <table class="interactive-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID Interaktif<span class="sort-mark"></span></th>
+                                        <th>Nama Interaktif<span class="sort-mark"></span></th>
+                                        <th>Keyword<span class="sort-mark"></span></th>
+                                        <th>Status<span class="sort-mark"></span></th>
+                                        <th>Tanggal Publish<span class="sort-mark"></span></th>
+                                        <th>QR Code</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="interactiveTableBody">
+                                    <tr>
+                                        <td>44</td>
+                                        <td>testmyads_cici</td>
+                                        <td>Info MyAds</td>
+                                        <td>Siap Digunakan</td>
+                                        <td>20 Mei 2026 15:57 WIB</td>
+                                        <td><button class="qr-btn" type="button">Lihat QR</button></td>
+                                        <td>
+                                            <div class="row-actions">
+                                                <button class="icon-action" type="button" title="Lihat" aria-label="Lihat">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                                </button>
+                                                <button class="icon-action" type="button" title="Edit" aria-label="Edit">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3a2.8 2.8 0 0 1 4 4L8 20l-5 1 1-5Z"></path><path d="m15 5 4 4"></path></svg>
+                                                </button>
+                                                <button class="icon-action" type="button" title="Hapus" aria-label="Hapus">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M6 6l1 18h10l1-18"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
+                                                </button>
+                                                <button class="icon-action" type="button" title="Edit Session" aria-label="Edit Session">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><path d="M3 10h18"></path><path d="M5 4h14a2 2 0 0 1 2 2v8.5"></path><path d="M5 4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8.5"></path><path d="M16 19l2 2 4-4"></path></svg>
+                                                </button>
+                                                <button class="status-toggle active" type="button" title="Aktif"></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>36</td>
+                                        <td>a</td>
+                                        <td>a</td>
+                                        <td>Draft</td>
+                                        <td>11 Mei 2026 11:52 WIB</td>
+                                        <td><button class="qr-btn" type="button" disabled>Lihat QR</button></td>
+                                        <td>
+                                            <div class="row-actions">
+                                                <button class="icon-action" type="button" title="Lihat" aria-label="Lihat">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                                </button>
+                                                <button class="icon-action" type="button" title="Edit" aria-label="Edit">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3a2.8 2.8 0 0 1 4 4L8 20l-5 1 1-5Z"></path><path d="m15 5 4 4"></path></svg>
+                                                </button>
+                                                <button class="icon-action" type="button" title="Hapus" aria-label="Hapus">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M6 6l1 18h10l1-18"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
+                                                </button>
+                                                <button class="icon-action" type="button" title="Edit Session" aria-label="Edit Session">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><path d="M3 10h18"></path><path d="M5 4h14a2 2 0 0 1 2 2v8.5"></path><path d="M5 4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8.5"></path><path d="M16 19l2 2 4-4"></path></svg>
+                                                </button>
+                                                <button class="status-toggle" type="button" title="Nonaktif"></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>17</td>
+                                        <td>powerhouse</td>
+                                        <td>power1</td>
+                                        <td>Siap Digunakan</td>
+                                        <td>22 April 2026 08:55 WIB</td>
+                                        <td><button class="qr-btn" type="button">Lihat QR</button></td>
+                                        <td>
+                                            <div class="row-actions">
+                                                <button class="icon-action" type="button" title="Lihat" aria-label="Lihat">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                                </button>
+                                                <button class="icon-action" type="button" title="Edit" aria-label="Edit">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3a2.8 2.8 0 0 1 4 4L8 20l-5 1 1-5Z"></path><path d="m15 5 4 4"></path></svg>
+                                                </button>
+                                                <button class="icon-action" type="button" title="Hapus" aria-label="Hapus">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M6 6l1 18h10l1-18"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
+                                                </button>
+                                                <button class="icon-action" type="button" title="Edit Session" aria-label="Edit Session">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><path d="M3 10h18"></path><path d="M5 4h14a2 2 0 0 1 2 2v8.5"></path><path d="M5 4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8.5"></path><path d="M16 19l2 2 4-4"></path></svg>
+                                                </button>
+                                                <button class="status-toggle active" type="button" title="Aktif"></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>16</td>
+                                        <td>testing_roamax</td>
+                                        <td>RoaMAX1</td>
+                                        <td>Siap Digunakan</td>
+                                        <td>21 April 2026 16:36 WIB</td>
+                                        <td><button class="qr-btn" type="button">Lihat QR</button></td>
+                                        <td>
+                                            <div class="row-actions">
+                                                <button class="icon-action" type="button" title="Lihat" aria-label="Lihat">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                                </button>
+                                                <button class="icon-action" type="button" title="Edit" aria-label="Edit">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3a2.8 2.8 0 0 1 4 4L8 20l-5 1 1-5Z"></path><path d="m15 5 4 4"></path></svg>
+                                                </button>
+                                                <button class="icon-action" type="button" title="Hapus" aria-label="Hapus">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M6 6l1 18h10l1-18"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
+                                                </button>
+                                                <button class="icon-action" type="button" title="Edit Session" aria-label="Edit Session">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><path d="M3 10h18"></path><path d="M5 4h14a2 2 0 0 1 2 2v8.5"></path><path d="M5 4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8.5"></path><path d="M16 19l2 2 4-4"></path></svg>
+                                                </button>
+                                                <button class="status-toggle active" type="button" title="Aktif"></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>15</td>
+                                        <td>testtin3</td>
+                                        <td>myads3</td>
+                                        <td>Disetujui</td>
+                                        <td>21 April 2026 15:33 WIB</td>
+                                        <td><button class="qr-btn" type="button" disabled>Lihat QR</button></td>
+                                        <td>
+                                            <div class="row-actions">
+                                                <button class="icon-action" type="button" title="Lihat" aria-label="Lihat">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                                </button>
+                                                <button class="icon-action" type="button" title="Edit" aria-label="Edit">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3a2.8 2.8 0 0 1 4 4L8 20l-5 1 1-5Z"></path><path d="m15 5 4 4"></path></svg>
+                                                </button>
+                                                <button class="icon-action" type="button" title="Hapus" aria-label="Hapus">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M6 6l1 18h10l1-18"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
+                                                </button>
+                                                <button class="icon-action" type="button" title="Edit Session" aria-label="Edit Session">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><path d="M3 10h18"></path><path d="M5 4h14a2 2 0 0 1 2 2v8.5"></path><path d="M5 4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8.5"></path><path d="M16 19l2 2 4-4"></path></svg>
+                                                </button>
+                                                <button class="status-toggle" type="button" title="Nonaktif"></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>14</td>
+                                        <td>testing1</td>
+                                        <td>myads1</td>
+                                        <td>Disetujui</td>
+                                        <td>21 April 2026 15:06 WIB</td>
+                                        <td><button class="qr-btn" type="button" disabled>Lihat QR</button></td>
+                                        <td>
+                                            <div class="row-actions">
+                                                <button class="icon-action" type="button" title="Lihat" aria-label="Lihat">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                                </button>
+                                                <button class="icon-action" type="button" title="Edit" aria-label="Edit">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3a2.8 2.8 0 0 1 4 4L8 20l-5 1 1-5Z"></path><path d="m15 5 4 4"></path></svg>
+                                                </button>
+                                                <button class="icon-action" type="button" title="Hapus" aria-label="Hapus">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M6 6l1 18h10l1-18"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
+                                                </button>
+                                                <button class="icon-action" type="button" title="Edit Session" aria-label="Edit Session">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><path d="M3 10h18"></path><path d="M5 4h14a2 2 0 0 1 2 2v8.5"></path><path d="M5 4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8.5"></path><path d="M16 19l2 2 4-4"></path></svg>
+                                                </button>
+                                                <button class="status-toggle" type="button" title="Nonaktif"></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>12</td>
+                                        <td>template_interaktif</td>
+                                        <td>bebas</td>
+                                        <td>Disetujui</td>
+                                        <td>21 April 2026 09:11 WIB</td>
+                                        <td><button class="qr-btn" type="button" disabled>Lihat QR</button></td>
+                                        <td>
+                                            <div class="row-actions">
+                                                <button class="icon-action" type="button" title="Lihat" aria-label="Lihat">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                                </button>
+                                                <button class="icon-action" type="button" title="Edit" aria-label="Edit">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3a2.8 2.8 0 0 1 4 4L8 20l-5 1 1-5Z"></path><path d="m15 5 4 4"></path></svg>
+                                                </button>
+                                                <button class="icon-action" type="button" title="Hapus" aria-label="Hapus">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M6 6l1 18h10l1-18"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
+                                                </button>
+                                                <button class="icon-action" type="button" title="Edit Session" aria-label="Edit Session">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><path d="M3 10h18"></path><path d="M5 4h14a2 2 0 0 1 2 2v8.5"></path><path d="M5 4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8.5"></path><path d="M16 19l2 2 4-4"></path></svg>
+                                                </button>
+                                                <button class="status-toggle" type="button" title="Nonaktif"></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="minimap" id="minimap" aria-hidden="true">
-                            <div class="minimap-track"></div>
-                            <div class="minimap-content" id="minimapContent"></div>
-                            <div class="minimap-viewport" id="minimapViewport"></div>
+
+                        <div class="table-footer">
+                            <label class="per-page-control">
+                                <span>Tampilkan Per</span>
+                                <select>
+                                    <option>10</option>
+                                    <option>25</option>
+                                    <option>50</option>
+                                </select>
+                            </label>
+                            <span class="pagination-current">1</span>
                         </div>
                     </div>
                 </section>
+
+                <section class="template-view" id="sessionSettingsPage">
+                    <div class="session-settings-page">
+                        <div class="session-steps">
+                            <div class="session-step active">
+                                <span class="session-step-badge">01</span>
+                                <strong>Setup Session</strong>
+                            </div>
+                            <div class="session-step">
+                                <span class="session-step-badge">02</span>
+                                <strong>Review &amp; Pembayaran</strong>
+                            </div>
+                        </div>
+
+                        <div class="session-actions">
+                            <button class="btn" type="button" id="sessionBackButton">Kembali</button>
+                            <button class="btn dark" type="button" id="sessionSaveButton">Simpan Session</button>
+                        </div>
+
+                        <section class="session-card">
+                            <div>
+                                <h2>Set Validity Period</h2>
+                                <p>Define range time for your rule based validity</p>
+                            </div>
+                            <div class="session-grid">
+                                <label class="session-field">
+                                    <span>Start Date</span>
+                                    <input class="session-input" type="date" id="sessionStartDate">
+                                </label>
+                                <label class="session-field">
+                                    <span>End Date</span>
+                                    <input class="session-input" type="date" id="sessionEndDate">
+                                </label>
+                            </div>
+                        </section>
+
+                        <section class="session-card">
+                            <div>
+                                <h2>Define Your Timeout</h2>
+                                <p>Choose our duration option or custom setup by yourself</p>
+                            </div>
+                            <div class="session-grid">
+                                <label class="session-field">
+                                    <span>Choose Duration</span>
+                                    <select class="session-select" id="sessionDuration">
+                                        <option value="">Choose Duration</option>
+                                        <option value="15">15 minutes</option>
+                                        <option value="30">30 minutes</option>
+                                        <option value="60">60 minutes</option>
+                                    </select>
+                                </label>
+                                <label class="session-field">
+                                    <span>Jumlah Session</span>
+                                    <input class="session-input" type="number" min="1" id="sessionCountInput" placeholder="Masukkan jumlah session">
+                                </label>
+                            </div>
+                        </section>
+
+                        <section class="session-card">
+                            <div>
+                                <h2>Set Your Message Timeout</h2>
+                                <p>Write the default message sent when a customer doesn't reply within the set time.</p>
+                            </div>
+                            <div class="session-message-grid">
+                                <div class="session-message-card">
+                                    <span>Message Content</span>
+                                    <div>
+                                        <div class="session-toolbar">
+                                            <select aria-label="Paragraph style">
+                                                <option>Paragraph</option>
+                                            </select>
+                                            <button class="session-tool" type="button">B</button>
+                                            <button class="session-tool" type="button"><i>I</i></button>
+                                            <button class="session-tool" type="button"><u>U</u></button>
+                                            <button class="session-tool" type="button"><s>S</s></button>
+                                            <button class="session-tool" type="button">1.</button>
+                                            <button class="session-tool" type="button">=</button>
+                                        </div>
+                                        <textarea class="session-textarea" id="sessionTimeoutMessage" maxlength="1024" placeholder="Write something awesome, example &quot;Terima kasih telah berbicara dengan tim dukungan kami! Bila memiliki pertanyaan lain, silakan menghubungi kami kembali.&quot;"></textarea>
+                                    </div>
+                                </div>
+                                <div class="session-message-card">
+                                    <span>Message Preview</span>
+                                    <div class="session-preview">
+                                        <div class="bubble" id="sessionTimeoutPreview">Your text will appear here..<time>09:25</time></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+
+                <section class="template-view" id="sessionReviewPage">
+                    <div class="session-review-page">
+                        <div class="session-steps">
+                            <div class="session-step done">
+                                <span class="session-step-badge">✓</span>
+                                <strong>Setup Session</strong>
+                            </div>
+                            <div class="session-step active">
+                                <span class="session-step-badge">02</span>
+                                <strong>Review &amp; Pembayaran</strong>
+                            </div>
+                        </div>
+                        <div class="ads-steps">
+                            <div class="ads-step done">
+                                <span class="ads-step-badge">✓</span>
+                                <strong>Pilih Template Pesan</strong>
+                            </div>
+                            <div class="ads-step done">
+                                <span class="ads-step-badge">✓</span>
+                                <strong>Atur Target Penerima</strong>
+                            </div>
+                            <div class="ads-step done">
+                                <span class="ads-step-badge">✓</span>
+                                <strong>Atur Pengiriman</strong>
+                            </div>
+                            <div class="ads-step active">
+                                <span class="ads-step-badge">04</span>
+                                <strong>Review &amp; Pembayaran</strong>
+                            </div>
+                        </div>
+
+                        <div class="session-review-main">
+                            <div class="ads-review-main">
+                                <h2 class="ads-review-title">Review</h2>
+                                <div class="ads-review-summary">
+                                    <label>Judul Iklan</label>
+                                    <strong>asd</strong>
+                                    <a class="ads-review-link" href="#">✎ Ubah</a>
+                                </div>
+
+                                <div class="ads-review-list">
+                                    <div class="ads-review-item">
+                                        <span class="ads-review-icon">▤</span>
+                                        <strong>Konten Iklan</strong>
+                                        <a href="#">✎ Ubah</a>
+                                        <button type="button">Tampilkan⌄</button>
+                                    </div>
+                                    <div class="ads-review-item">
+                                        <span class="ads-review-icon">☷</span>
+                                        <strong>Profil Penerima</strong>
+                                        <a href="#">✎ Ubah</a>
+                                        <button type="button">Tampilkan⌄</button>
+                                    </div>
+                                    <div class="ads-review-item">
+                                        <span class="ads-review-icon">◷</span>
+                                        <strong>Waktu Pengiriman</strong>
+                                        <a href="#">✎ Ubah</a>
+                                        <button type="button">Tampilkan⌄</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <aside class="ads-cost-card">
+                                <div class="ads-cost-body">
+                                    <h3>Detil Biaya</h3>
+                                    <div class="ads-cost-section">
+                                        <div class="ads-cost-head">
+                                            <span>PRODUK YANG DIPILIH</span>
+                                            <span>⌃</span>
+                                        </div>
+                                        <div class="ads-cost-row"><span>Kategori Iklan</span><strong>WA Business</strong></div>
+                                        <div class="ads-cost-row"><span>Tipe Kanal</span><strong>LBA</strong></div>
+                                        <div class="ads-cost-row"><span>Harga Session</span><strong><span id="reviewSessionCount">0</span> x Rp 150</strong></div>
+                                        <div class="session-cost-note">Biaya hanya dihitung dari jumlah session yang dimasukkan.</div>
+                                    </div>
+
+                                    <div class="ads-cost-section">
+                                        <div class="ads-cost-total"><span>Grand Total <u>Tampilkan Detil</u></span><strong id="reviewGrandTotal">Rp 0</strong></div>
+                                    </div>
+
+                                    <div class="ads-cost-section">
+                                        <div class="ads-cost-head">
+                                            <span>SALDO &amp; PAKET ANDA</span>
+                                            <span>⌃</span>
+                                        </div>
+                                        <div class="ads-cost-row"><span>Gunakan Paket <small style="color:#ff6b2c;">(Tersisa 0 Pesan)</small></span><strong>◯</strong></div>
+                                        <div class="ads-cost-row"><span>Saldo Umum</span><strong>Rp 4.376.865</strong></div>
+                                    </div>
+
+                                    <div class="ads-cost-section">
+                                        <div class="ads-cost-head">
+                                            <span>PEMBAYARAN ANDA MENGGUNAKAN</span>
+                                            <span>⌃</span>
+                                        </div>
+                                        <div class="ads-cost-total"><span>Saldo Umum</span><strong id="reviewPaymentTotal" style="color: var(--brand);">Rp 0</strong></div>
+                                        <button class="ads-topup-btn" type="button" id="paySessionAdsButton">Bayar &amp; Kirim Iklan</button>
+                                        <p class="session-cost-note">Apabila terdapat pesan yang tidak terkirim, maka biaya akan dikembalikan sesuai jumlah pesan yang tidak terkirim.</p>
+                                    </div>
+                                </div>
+                            </aside>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="template-view template-builder-grid" id="interactiveBuilderPage">
+                    <section class="screen active" data-screen="0">
+                        <div class="builder" id="builderCanvas">
+                            <div class="builder-stage" id="builderStage">
+                                <div class="flow-shell" id="flowShell">
+                                    <div class="flow">
+                                        <div class="start-node">Start</div>
+                                        <div class="line"></div>
+                                        <div class="response-node">
+                                            <h2>User Response</h2>
+                                            <div class="keyword-box" id="userKeywordPreview">Any Keyword Send</div>
+                                        </div>
+                                        <div class="line"></div>
+                                        <div class="bot-nodes" id="botNodes"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="zoom" aria-label="Canvas controls">
+                                <button type="button" data-zoom-action="in">+</button>
+                                <button type="button" data-zoom-action="out">-</button>
+                                <button type="button" data-zoom-action="preset-toggle" id="zoomPresetToggle">100%</button>
+                                <button type="button" data-zoom-action="fit">FIT</button>
+                                <div class="zoom-presets" id="zoomPresets">
+                                    <button type="button" data-zoom-preset="1">100%</button>
+                                    <button type="button" data-zoom-preset="0.75">75%</button>
+                                    <button type="button" data-zoom-preset="0.5">50%</button>
+                                    <button type="button" data-zoom-preset="0.25">25%</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <aside class="flow-editor-panel" id="flowEditorPanel" aria-label="Editor dan preview flow">
+                        <div class="flow-editor-empty" id="flowEditorEmpty">
+                            Pilih atau tambah flow untuk mengubah value di panel ini.
+                        </div>
+                        <div id="flowEditorMount"></div>
+                        <section class="flow-preview-card">
+                            <div class="flow-preview-head">
+                                <h3>Preview</h3>
+                            </div>
+                            <div class="wa-phone">
+                                <div class="wa-phone-top">
+                                    <span class="wa-back">&lsaquo;</span>
+                                    <span class="wa-avatar"></span>
+                                    <span class="wa-contact">
+                                        <strong>Name</strong>
+                                        <span>Business Account</span>
+                                    </span>
+                                    <span class="wa-menu-dot">...</span>
+                                </div>
+                                <div class="wa-chat" id="flowMessagePreview">
+                                    <div class="wa-message">Pilih flow untuk melihat preview<span class="wa-message-time">09:41</span></div>
+                                </div>
+                            </div>
+                        </section>
+                    </aside>
+                </div>
             </section>
 
             <section class="workspace" id="adsWorkspace">
@@ -2830,8 +3950,8 @@
     </section>
 </div>
 
-<div class="setup-backdrop open" id="setupBackdrop"></div>
-<section class="setup-modal open" id="setupModal" aria-modal="true" role="dialog" aria-labelledby="setupTitle">
+<div class="setup-backdrop" id="setupBackdrop"></div>
+<section class="setup-modal" id="setupModal" aria-modal="true" role="dialog" aria-labelledby="setupTitle" aria-hidden="true">
     <div class="setup-head">
         <h2 id="setupTitle">Buat WA Interaktif</h2>
         <button class="setup-close" type="button" data-setup-close>&times;</button>
@@ -2941,6 +4061,22 @@
     const pageTabLabel = document.getElementById('pageTabLabel');
     const templateWorkspace = document.getElementById('templateWorkspace');
     const adsWorkspace = document.getElementById('adsWorkspace');
+    const interactiveListPage = document.getElementById('interactiveListPage');
+    const interactiveBuilderPage = document.getElementById('interactiveBuilderPage');
+    const sessionSettingsPage = document.getElementById('sessionSettingsPage');
+    const sessionReviewPage = document.getElementById('sessionReviewPage');
+    const createInteractiveButton = document.getElementById('createInteractiveButton');
+    const interactiveSearchInput = document.getElementById('interactiveSearchInput');
+    const interactiveTableBody = document.getElementById('interactiveTableBody');
+    const sessionBackButton = document.getElementById('sessionBackButton');
+    const sessionSaveButton = document.getElementById('sessionSaveButton');
+    const sessionCountInput = document.getElementById('sessionCountInput');
+    const sessionTimeoutMessage = document.getElementById('sessionTimeoutMessage');
+    const sessionTimeoutPreview = document.getElementById('sessionTimeoutPreview');
+    const reviewSessionCount = document.getElementById('reviewSessionCount');
+    const reviewGrandTotal = document.getElementById('reviewGrandTotal');
+    const reviewPaymentTotal = document.getElementById('reviewPaymentTotal');
+    const paySessionAdsButton = document.getElementById('paySessionAdsButton');
     const adsStage1 = document.getElementById('adsStage1');
     const adsStage2 = document.getElementById('adsStage2');
     const adsStage3 = document.getElementById('adsStage3');
@@ -2965,9 +4101,6 @@
     const builderCanvas = document.getElementById('builderCanvas');
     const builderStage = document.getElementById('builderStage');
     const flowShell = document.getElementById('flowShell');
-    const minimap = document.getElementById('minimap');
-    const minimapContent = document.getElementById('minimapContent');
-    const minimapViewport = document.getElementById('minimapViewport');
     const zoomPresetToggle = document.getElementById('zoomPresetToggle');
     const zoomPresets = document.getElementById('zoomPresets');
     const setupBackdrop = document.getElementById('setupBackdrop');
@@ -2999,6 +4132,9 @@
     const optionsEditorLabel = document.getElementById('optionsEditorLabel');
     const optionsEditorList = document.getElementById('optionsEditorList');
     const addOptionButton = document.getElementById('addOptionButton');
+    const flowEditorPanel = document.getElementById('flowEditorPanel');
+    const flowEditorMount = document.getElementById('flowEditorMount');
+    const flowMessagePreview = document.getElementById('flowMessagePreview');
     const csrf = document.querySelector('meta[name="csrf-token"]').content;
     let currentStep = 0;
     let selectedTrigger = 'Inbound';
@@ -3021,8 +4157,11 @@
         <button type="button" data-node="List">List</button>
     `;
 
+    flowEditorMount.appendChild(textMessageDrawer);
+    textMessageDrawer.setAttribute('aria-hidden', 'false');
+
     function isMessageDrawerNode(node) {
-        return ['text_messages', 'button'].includes(node?.type);
+        return ['text_messages', 'button', 'list'].includes(node?.type);
     }
 
     function createBranchFlow(label) {
@@ -3081,7 +4220,6 @@
         zoomLevel = clamp(Number(value) || 1, 0.25, 1.8);
         flowShell.style.transform = `scale(${zoomLevel})`;
         syncZoomControls();
-        updateMinimap();
     }
 
     function centerBuilderView() {
@@ -3093,7 +4231,6 @@
 
         builderCanvas.scrollLeft = Math.max(0, left);
         builderCanvas.scrollTop = top;
-        updateMinimap();
     }
 
     function fitBuilderView() {
@@ -3121,37 +4258,6 @@
 
         zoomPresets.classList.toggle('open', shouldOpen);
         zoomPresetToggle.classList.toggle('active', shouldOpen);
-    }
-
-    function updateMinimap() {
-        if (!minimap || currentStep !== 0) return;
-
-        const minimapRect = minimap.getBoundingClientRect();
-        const mapWidth = minimapRect.width;
-        const mapHeight = minimapRect.height;
-        const stageWidth = builderStage.scrollWidth;
-        const stageHeight = builderStage.scrollHeight;
-        const safeStageWidth = Math.max(stageWidth, 1);
-        const safeStageHeight = Math.max(stageHeight, 1);
-        const scale = Math.min(mapWidth / safeStageWidth, mapHeight / safeStageHeight);
-        const contentWidth = flowShell.offsetWidth * scale;
-        const contentHeight = flowShell.offsetHeight * zoomLevel * scale;
-        const contentLeft = (mapWidth - contentWidth) / 2;
-        const contentTop = clamp(mapHeight - contentHeight - 12, 8, Math.max(8, mapHeight - contentHeight));
-        const viewportWidth = clamp(builderCanvas.clientWidth * scale, 24, mapWidth);
-        const viewportHeight = clamp(builderCanvas.clientHeight * scale, 24, mapHeight);
-        const viewportLeft = clamp(builderCanvas.scrollLeft * scale, 0, Math.max(0, mapWidth - viewportWidth));
-        const viewportTop = clamp(builderCanvas.scrollTop * scale, 0, Math.max(0, mapHeight - viewportHeight));
-
-        minimapContent.style.width = `${contentWidth}px`;
-        minimapContent.style.height = `${contentHeight}px`;
-        minimapContent.style.left = `${contentLeft}px`;
-        minimapContent.style.top = `${contentTop}px`;
-
-        minimapViewport.style.width = `${viewportWidth}px`;
-        minimapViewport.style.height = `${viewportHeight}px`;
-        minimapViewport.style.left = `${viewportLeft}px`;
-        minimapViewport.style.top = `${viewportTop}px`;
     }
 
     function getKeywordText() {
@@ -3214,6 +4320,92 @@
         adsStepBadge1.textContent = adsCurrentStep > 1 ? '✓' : '01';
     }
 
+    function resetInteractiveBuilder() {
+        flowNameInput.value = '';
+        setWabaAccount('', '');
+        triggerKeywordInput.value = '';
+        triggerKeyword = '';
+        selectedTrigger = 'Inbound';
+        flowNodes = [];
+        isSetupComplete = false;
+        app.dataset.setupComplete = 'false';
+        closeTextMessageDrawer();
+        renderFlowNodes();
+        syncSetupPreview();
+        applyZoom(1);
+    }
+
+    function showInteractiveList() {
+        app.dataset.templateView = 'list';
+        interactiveListPage.classList.add('active');
+        sessionSettingsPage.classList.remove('active');
+        sessionReviewPage.classList.remove('active');
+        interactiveBuilderPage.classList.remove('active');
+        closeTextMessageDrawer();
+        setupBackdrop.classList.remove('open');
+        setupModal.classList.remove('open');
+        setupModal.setAttribute('aria-hidden', 'true');
+        pageBreadcrumbs.innerHTML = 'Template / <b>WA Interaktif</b>';
+        pageTitle.textContent = 'WA Interaktif';
+        pageTabLabel.textContent = 'WA Interaktif';
+    }
+
+    function showInteractiveBuilder() {
+        app.dataset.templateView = 'builder';
+        interactiveListPage.classList.remove('active');
+        sessionSettingsPage.classList.remove('active');
+        sessionReviewPage.classList.remove('active');
+        interactiveBuilderPage.classList.add('active');
+        requestAnimationFrame(() => {
+            centerBuilderView();
+            applyZoom(zoomLevel);
+        });
+    }
+
+    function showSessionSettings() {
+        app.dataset.templateView = 'session';
+        interactiveListPage.classList.remove('active');
+        interactiveBuilderPage.classList.remove('active');
+        sessionReviewPage.classList.remove('active');
+        sessionSettingsPage.classList.add('active');
+        closeTextMessageDrawer();
+    }
+
+    function formatRupiah(value) {
+        return `Rp ${Math.max(0, Number(value) || 0).toLocaleString('id-ID')}`;
+    }
+
+    function showSessionReview() {
+        const sessionCount = Math.max(0, Number(sessionCountInput.value) || 0);
+        const grandTotal = sessionCount * 150;
+
+        reviewSessionCount.textContent = sessionCount.toLocaleString('id-ID');
+        reviewGrandTotal.textContent = formatRupiah(grandTotal);
+        reviewPaymentTotal.textContent = formatRupiah(grandTotal);
+
+        app.dataset.templateView = 'review';
+        interactiveListPage.classList.remove('active');
+        sessionSettingsPage.classList.remove('active');
+        interactiveBuilderPage.classList.remove('active');
+        sessionReviewPage.classList.add('active');
+        pageBreadcrumbs.innerHTML = 'Dashboard / <b>Buat Iklan WA Business LBA</b>';
+        pageTitle.textContent = 'Buat Iklan WA Business LBA';
+        pageTabLabel.textContent = 'Review & Pembayaran';
+    }
+
+    function syncSessionTimeoutPreview() {
+        if (!sessionTimeoutMessage || !sessionTimeoutPreview) return;
+
+        const value = sessionTimeoutMessage.value.trim() || 'Your text will appear here..';
+        sessionTimeoutPreview.innerHTML = `${escapeHtml(value)}<time>09:25</time>`;
+    }
+
+    function startCreateInteractive() {
+        resetInteractiveBuilder();
+        showInteractiveBuilder();
+        openSetupModal();
+    }
+
     function setActiveSidebarSection(section) {
         const isAdsSection = section === 'ads';
         app.dataset.section = isAdsSection ? 'ads' : 'template';
@@ -3236,6 +4428,7 @@
         pageTitle.textContent = 'WA Interaktif';
         pageTabLabel.textContent = 'WA Interaktif';
         closeAdsModal();
+        showInteractiveList();
     }
 
     function syncSetupPreview() {
@@ -3275,7 +4468,7 @@
             triggerKeyword = '';
             syncSetupPreview();
             toggleWabaOptions(false);
-            flowNameInput.focus();
+            showInteractiveList();
             return;
         }
 
@@ -3493,6 +4686,7 @@
 
         headerTextField.classList.toggle('hidden', headerType !== 'text');
         headerImageField.classList.toggle('hidden', headerType !== 'image');
+        syncPanelPreviewFromInputs();
     }
 
     function renderOptionsEditor(options = [], type = 'button') {
@@ -3511,6 +4705,57 @@
         addOptionButton.textContent = type === 'list' ? '+ List Option' : '+ Button';
     }
 
+    function renderMessagePreview(entity, values = {}) {
+        if (!flowMessagePreview) return;
+
+        if (!entity) {
+            flowMessagePreview.innerHTML = `
+                <div class="wa-message">Pilih flow untuk melihat preview<span class="wa-message-time">09:41</span></div>
+            `;
+            return;
+        }
+
+        const headerType = values.headerType ?? entity.headerType ?? 'text';
+        const headerText = values.headerText ?? entity.headerText ?? '';
+        const headerImage = values.headerImage ?? entity.headerImage ?? '';
+        const body = values.body ?? entity.body ?? getNodeMessage(entity);
+        const options = values.options ?? entity.options ?? [];
+        const headerMarkup = headerType === 'image' && headerImage
+            ? `<div class="wa-message-header"><img src="${escapeHtml(headerImage)}" alt="Header image"></div>`
+            : (headerType === 'text' && headerText ? `<div class="wa-message-header">${escapeHtml(headerText)}</div>` : '');
+        const optionsMarkup = ['button', 'list'].includes(entity.type) && options.length
+            ? `<div class="wa-options">${options.map((label) => `<div class="wa-option">${escapeHtml(label)}</div>`).join('')}</div>`
+            : '';
+
+        flowMessagePreview.innerHTML = `
+            <div class="wa-message">
+                ${headerMarkup}
+                <div>${escapeHtml(body || 'Tulis isi pesan untuk melihat preview.')}</div>
+                ${optionsMarkup}
+                <span class="wa-message-time">09:41</span>
+            </div>
+        `;
+    }
+
+    function syncPanelPreviewFromInputs() {
+        const entity = activeDrawerTargetId ? findFlowEntityById(activeDrawerTargetId) : null;
+        if (!entity) {
+            renderMessagePreview(null);
+            return;
+        }
+
+        const headerType = document.querySelector('[data-header-type].active')?.dataset.headerType || 'text';
+        renderMessagePreview(entity, {
+            headerType,
+            headerText: drawerHeaderText.value.trim(),
+            headerImage: drawerHeaderImage.value.trim(),
+            body: drawerBodyText.value.trim(),
+            options: ['button', 'list'].includes(entity.type)
+                ? getDrawerOptionValues(entity.type === 'list' ? 5 : 2)
+                : [],
+        });
+    }
+
     function getDrawerOptionValues(limit = 2) {
         return [...optionsEditorList.querySelectorAll('[data-option-input]')]
             .map((input) => input.value.trim())
@@ -3523,6 +4768,7 @@
         if (!entity) return;
 
         activeDrawerTargetId = entityId;
+        flowEditorPanel.classList.add('has-selection');
         messageDrawerTitle.textContent =
             entity.type === 'button'
                 ? 'Button Message'
@@ -3536,16 +4782,19 @@
         setDrawerHeaderType(entity.headerType || 'text');
         optionsEditorField.classList.toggle('hidden', !['button', 'list'].includes(entity.type));
         renderOptionsEditor(entity.options || [], entity.type);
-        drawerBackdrop.classList.add('open');
-        textMessageDrawer.classList.add('open');
+        renderMessagePreview(entity);
+        drawerBackdrop.classList.remove('open');
+        textMessageDrawer.classList.remove('open');
         textMessageDrawer.setAttribute('aria-hidden', 'false');
     }
 
     function closeTextMessageDrawer() {
         activeDrawerTargetId = null;
+        flowEditorPanel.classList.remove('has-selection');
+        renderMessagePreview(null);
         drawerBackdrop.classList.remove('open');
         textMessageDrawer.classList.remove('open');
-        textMessageDrawer.setAttribute('aria-hidden', 'true');
+        textMessageDrawer.setAttribute('aria-hidden', 'false');
     }
 
     function saveTextMessageNode() {
@@ -3567,7 +4816,7 @@
         entity.message = entity.body || defaultMessage(entity.title);
 
         renderFlowNodes();
-        closeTextMessageDrawer();
+        openFlowEditor(entity.id);
     }
 
     function renderFlowNodes() {
@@ -3612,8 +4861,6 @@
             });
         });
 
-        requestAnimationFrame(updateMinimap);
-
         if (isMessageDrawerNode(node)) {
             requestAnimationFrame(() => openFlowEditor(node.id));
         }
@@ -3654,6 +4901,38 @@
     openAdsMenuButton.addEventListener('click', () => {
         setActiveSidebarSection('ads');
         openAdsModal();
+    });
+
+    createInteractiveButton.addEventListener('click', startCreateInteractive);
+
+    interactiveSearchInput.addEventListener('input', (event) => {
+        const keyword = event.target.value.trim().toLowerCase();
+
+        interactiveTableBody.querySelectorAll('tr').forEach((row) => {
+            row.style.display = row.textContent.toLowerCase().includes(keyword) ? '' : 'none';
+        });
+    });
+
+    interactiveTableBody.addEventListener('click', (event) => {
+        const sessionButton = event.target.closest('[aria-label="Edit Session"]');
+        if (!sessionButton) return;
+
+        showSessionSettings();
+    });
+
+    sessionBackButton.addEventListener('click', showInteractiveList);
+    sessionSaveButton.addEventListener('click', () => {
+        if (!Number(sessionCountInput.value)) {
+            alert('Jumlah session wajib diisi.');
+            sessionCountInput.focus();
+            return;
+        }
+
+        showSessionReview();
+    });
+    sessionTimeoutMessage.addEventListener('input', syncSessionTimeoutPreview);
+    paySessionAdsButton.addEventListener('click', () => {
+        alert('Iklan siap dibayar dan dikirim.');
     });
 
     adsStep1Next.addEventListener('click', () => setAdsStep(2));
@@ -3716,6 +4995,10 @@
         button.addEventListener('click', () => setDrawerHeaderType(button.dataset.headerType));
     });
 
+    [drawerHeaderText, drawerHeaderImage, drawerBodyText, drawerFallbackText].forEach((field) => {
+        field.addEventListener('input', syncPanelPreviewFromInputs);
+    });
+
     document.querySelectorAll('[data-drawer-close]').forEach((button) => {
         button.addEventListener('click', closeTextMessageDrawer);
     });
@@ -3731,7 +5014,10 @@
 
         options.push('');
         renderOptionsEditor(options, type);
+        syncPanelPreviewFromInputs();
     });
+
+    optionsEditorList.addEventListener('input', syncPanelPreviewFromInputs);
 
     optionsEditorList.addEventListener('click', (event) => {
         const removeButton = event.target.closest('[data-remove-button]');
@@ -3742,6 +5028,7 @@
         const limit = type === 'list' ? 5 : 2;
         const options = getDrawerOptionValues(limit).filter((_, index) => index !== Number(removeButton.dataset.removeButton));
         renderOptionsEditor(options, type);
+        syncPanelPreviewFromInputs();
     });
 
     document.querySelectorAll('[data-zoom-action]').forEach((button) => {
@@ -3781,7 +5068,6 @@
 
         builderCanvas.scrollLeft = panScrollLeft - (event.clientX - panStartX);
         builderCanvas.scrollTop = panScrollTop - (event.clientY - panStartY);
-        updateMinimap();
     });
 
     function stopPanning(event) {
@@ -3804,9 +5090,6 @@
         event.preventDefault();
         applyZoom(zoomLevel + (event.deltaY < 0 ? 0.08 : -0.08));
     }, { passive: false });
-
-    builderCanvas.addEventListener('scroll', updateMinimap, { passive: true });
-    window.addEventListener('resize', updateMinimap);
 
     builderCanvas.addEventListener('click', (event) => {
         const openMenuButton = event.target.closest('[data-action="open-menu"]');
@@ -3853,6 +5136,9 @@
         if (removeButton) {
             flowNodes = flowNodes.filter((node) => node.id !== removeButton.dataset.removeNode);
             renderFlowNodes();
+            if (activeDrawerTargetId === removeButton.dataset.removeNode || !findFlowEntityById(activeDrawerTargetId)) {
+                closeTextMessageDrawer();
+            }
             return;
         }
 
@@ -3876,12 +5162,12 @@
     setAdsStep(1);
     syncAdsTemplateType();
     syncAdsTimeoutPreview();
+    syncSessionTimeoutPreview();
     setWabaAccount('', '');
     syncSetupPreview();
     setStep(0);
     applyZoom(1);
-    updateMinimap();
-    openSetupModal();
+    showInteractiveList();
 </script>
 </body>
 </html>
