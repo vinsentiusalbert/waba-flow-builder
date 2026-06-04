@@ -3181,6 +3181,7 @@
                                         <th>Keyword<span class="sort-mark"></span></th>
                                         <th>Status<span class="sort-mark"></span></th>
                                         <th>Tanggal Publish<span class="sort-mark"></span></th>
+                                        <th>Jumlah Session<span class="sort-mark"></span></th>
                                         <th>QR Code</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -3192,14 +3193,15 @@
                                         <td>Info MyAds</td>
                                         <td>Siap Digunakan</td>
                                         <td>20 Mei 2026 15:57 WIB</td>
+                                        <td class="session-count-cell" data-session-count="1200">1.200</td>
                                         <td><button class="qr-btn" type="button">Lihat QR</button></td>
                                         <td>
                                             <div class="row-actions">
                                                 <button class="icon-action" type="button" title="Lihat" aria-label="Lihat">
                                                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                                 </button>
-                                                <button class="icon-action" type="button" title="Edit" aria-label="Edit">
-                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3a2.8 2.8 0 0 1 4 4L8 20l-5 1 1-5Z"></path><path d="m15 5 4 4"></path></svg>
+                                                <button class="icon-action" type="button" title="Duplicate" aria-label="Duplicate">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="10" height="10" rx="2"></rect><path d="M15 9V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path></svg>
                                                 </button>
                                                 <button class="icon-action" type="button" title="Hapus" aria-label="Hapus">
                                                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M6 6l1 18h10l1-18"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
@@ -3217,14 +3219,15 @@
                                         <td>a</td>
                                         <td>Draft</td>
                                         <td>11 Mei 2026 11:52 WIB</td>
+                                        <td class="session-count-cell" data-session-count="0">0</td>
                                         <td><button class="qr-btn" type="button" disabled>Lihat QR</button></td>
                                         <td>
                                             <div class="row-actions">
                                                 <button class="icon-action" type="button" title="Lihat" aria-label="Lihat">
                                                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                                 </button>
-                                                <button class="icon-action" type="button" title="Edit" aria-label="Edit">
-                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3a2.8 2.8 0 0 1 4 4L8 20l-5 1 1-5Z"></path><path d="m15 5 4 4"></path></svg>
+                                                <button class="icon-action" type="button" title="Duplicate" aria-label="Duplicate">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="10" height="10" rx="2"></rect><path d="M15 9V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path></svg>
                                                 </button>
                                                 <button class="icon-action" type="button" title="Hapus" aria-label="Hapus">
                                                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M6 6l1 18h10l1-18"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
@@ -3242,14 +3245,15 @@
                                         <td>power1</td>
                                         <td>Siap Digunakan</td>
                                         <td>22 April 2026 08:55 WIB</td>
+                                        <td class="session-count-cell" data-session-count="850">850</td>
                                         <td><button class="qr-btn" type="button">Lihat QR</button></td>
                                         <td>
                                             <div class="row-actions">
                                                 <button class="icon-action" type="button" title="Lihat" aria-label="Lihat">
                                                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                                 </button>
-                                                <button class="icon-action" type="button" title="Edit" aria-label="Edit">
-                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3a2.8 2.8 0 0 1 4 4L8 20l-5 1 1-5Z"></path><path d="m15 5 4 4"></path></svg>
+                                                <button class="icon-action" type="button" title="Duplicate" aria-label="Duplicate">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="10" height="10" rx="2"></rect><path d="M15 9V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path></svg>
                                                 </button>
                                                 <button class="icon-action" type="button" title="Hapus" aria-label="Hapus">
                                                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M6 6l1 18h10l1-18"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
@@ -3267,14 +3271,15 @@
                                         <td>RoaMAX1</td>
                                         <td>Siap Digunakan</td>
                                         <td>21 April 2026 16:36 WIB</td>
+                                        <td class="session-count-cell" data-session-count="640">640</td>
                                         <td><button class="qr-btn" type="button">Lihat QR</button></td>
                                         <td>
                                             <div class="row-actions">
                                                 <button class="icon-action" type="button" title="Lihat" aria-label="Lihat">
                                                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                                 </button>
-                                                <button class="icon-action" type="button" title="Edit" aria-label="Edit">
-                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3a2.8 2.8 0 0 1 4 4L8 20l-5 1 1-5Z"></path><path d="m15 5 4 4"></path></svg>
+                                                <button class="icon-action" type="button" title="Duplicate" aria-label="Duplicate">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="10" height="10" rx="2"></rect><path d="M15 9V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path></svg>
                                                 </button>
                                                 <button class="icon-action" type="button" title="Hapus" aria-label="Hapus">
                                                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M6 6l1 18h10l1-18"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
@@ -3292,14 +3297,15 @@
                                         <td>myads3</td>
                                         <td>Disetujui</td>
                                         <td>21 April 2026 15:33 WIB</td>
+                                        <td class="session-count-cell" data-session-count="0">0</td>
                                         <td><button class="qr-btn" type="button" disabled>Lihat QR</button></td>
                                         <td>
                                             <div class="row-actions">
                                                 <button class="icon-action" type="button" title="Lihat" aria-label="Lihat">
                                                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                                 </button>
-                                                <button class="icon-action" type="button" title="Edit" aria-label="Edit">
-                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3a2.8 2.8 0 0 1 4 4L8 20l-5 1 1-5Z"></path><path d="m15 5 4 4"></path></svg>
+                                                <button class="icon-action" type="button" title="Duplicate" aria-label="Duplicate">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="10" height="10" rx="2"></rect><path d="M15 9V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path></svg>
                                                 </button>
                                                 <button class="icon-action" type="button" title="Hapus" aria-label="Hapus">
                                                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M6 6l1 18h10l1-18"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
@@ -3317,14 +3323,15 @@
                                         <td>myads1</td>
                                         <td>Disetujui</td>
                                         <td>21 April 2026 15:06 WIB</td>
+                                        <td class="session-count-cell" data-session-count="0">0</td>
                                         <td><button class="qr-btn" type="button" disabled>Lihat QR</button></td>
                                         <td>
                                             <div class="row-actions">
                                                 <button class="icon-action" type="button" title="Lihat" aria-label="Lihat">
                                                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                                 </button>
-                                                <button class="icon-action" type="button" title="Edit" aria-label="Edit">
-                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3a2.8 2.8 0 0 1 4 4L8 20l-5 1 1-5Z"></path><path d="m15 5 4 4"></path></svg>
+                                                <button class="icon-action" type="button" title="Duplicate" aria-label="Duplicate">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="10" height="10" rx="2"></rect><path d="M15 9V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path></svg>
                                                 </button>
                                                 <button class="icon-action" type="button" title="Hapus" aria-label="Hapus">
                                                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M6 6l1 18h10l1-18"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
@@ -3342,14 +3349,15 @@
                                         <td>bebas</td>
                                         <td>Disetujui</td>
                                         <td>21 April 2026 09:11 WIB</td>
+                                        <td class="session-count-cell" data-session-count="0">0</td>
                                         <td><button class="qr-btn" type="button" disabled>Lihat QR</button></td>
                                         <td>
                                             <div class="row-actions">
                                                 <button class="icon-action" type="button" title="Lihat" aria-label="Lihat">
                                                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                                 </button>
-                                                <button class="icon-action" type="button" title="Edit" aria-label="Edit">
-                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3a2.8 2.8 0 0 1 4 4L8 20l-5 1 1-5Z"></path><path d="m15 5 4 4"></path></svg>
+                                                <button class="icon-action" type="button" title="Duplicate" aria-label="Duplicate">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="10" height="10" rx="2"></rect><path d="M15 9V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path></svg>
                                                 </button>
                                                 <button class="icon-action" type="button" title="Hapus" aria-label="Hapus">
                                                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M6 6l1 18h10l1-18"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
@@ -4151,6 +4159,7 @@
     let panScrollLeft = 0;
     let panScrollTop = 0;
     let activeDrawerTargetId = null;
+    let activeSessionRow = null;
     const menuOptionsMarkup = `
         <button type="button" data-node="Text Messages">Text Messages</button>
         <button type="button" data-node="Button">Button</button>
@@ -4373,6 +4382,19 @@
 
     function formatRupiah(value) {
         return `Rp ${Math.max(0, Number(value) || 0).toLocaleString('id-ID')}`;
+    }
+
+    function formatSessionCount(value) {
+        return Math.max(0, Number(value) || 0).toLocaleString('id-ID');
+    }
+
+    function syncInteractiveSessionCount(row, count) {
+        const sessionCell = row?.querySelector('.session-count-cell');
+        if (!sessionCell) return;
+
+        const normalizedCount = Math.max(0, Number(count) || 0);
+        sessionCell.dataset.sessionCount = String(normalizedCount);
+        sessionCell.textContent = formatSessionCount(normalizedCount);
     }
 
     function showSessionReview() {
@@ -4917,6 +4939,8 @@
         const sessionButton = event.target.closest('[aria-label="Edit Session"]');
         if (!sessionButton) return;
 
+        activeSessionRow = sessionButton.closest('tr');
+        sessionCountInput.value = activeSessionRow?.querySelector('.session-count-cell')?.dataset.sessionCount || '';
         showSessionSettings();
     });
 
@@ -4928,6 +4952,9 @@
             return;
         }
 
+        if (activeSessionRow) {
+            syncInteractiveSessionCount(activeSessionRow, sessionCountInput.value);
+        }
         showSessionReview();
     });
     sessionTimeoutMessage.addEventListener('input', syncSessionTimeoutPreview);
