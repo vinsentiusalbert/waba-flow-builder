@@ -801,8 +801,9 @@
         }
 
         .template-builder-grid {
+            position: relative;
             display: grid;
-            grid-template-columns: minmax(0, 1fr) minmax(720px, 820px);
+            grid-template-columns: minmax(0, 1fr);
             gap: 18px;
             align-items: start;
         }
@@ -811,15 +812,49 @@
             min-width: 0;
         }
 
+        .flow-editor-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, .08);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity .24s ease, visibility .24s ease;
+            z-index: 18;
+        }
+
+        .flow-editor-backdrop.open {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
         .flow-editor-panel {
-            position: sticky;
-            top: 18px;
+            position: fixed;
+            top: 146px;
+            right: 24px;
+            bottom: 24px;
+            width: min(820px, calc(100vw - 96px));
             display: grid;
             grid-template-columns: minmax(0, 1fr) 360px;
             gap: 14px;
             align-items: start;
-            max-height: calc(100vh - 128px);
+            padding: 4px;
+            max-height: none;
             overflow: auto;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateX(calc(100% + 32px));
+            transition: transform .28s ease, opacity .2s ease, visibility .2s ease;
+            z-index: 19;
+        }
+
+        .flow-editor-panel.open {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateX(0);
         }
 
         #flowEditorMount {
@@ -2257,14 +2292,120 @@
             gap: 18px;
         }
 
+        .flow-workspace {
+            display: grid;
+            grid-template-columns: 248px minmax(0, 1fr);
+            gap: 0;
+            border: 1px solid #e4e9f1;
+            border-radius: 18px;
+            background: #f5f8fd;
+            overflow: hidden;
+            min-height: calc(100vh - 182px);
+        }
+
+        .flow-toolbox {
+            display: grid;
+            grid-template-rows: auto auto 1fr;
+            background: #fff;
+            border-right: 1px solid #e6ebf2;
+        }
+
+        .flow-toolbox-head {
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 0 18px;
+            border-bottom: 1px solid #edf1f6;
+        }
+
+        .flow-toolbox-title {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #1b2430;
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .flow-toolbox-badge {
+            color: var(--brand);
+            font-weight: 900;
+            letter-spacing: .08em;
+        }
+
+        .flow-toolbox-add {
+            border: 0;
+            background: transparent;
+            color: var(--brand);
+            font-size: 34px;
+            line-height: 1;
+        }
+
+        .flow-toolbox-section {
+            padding: 14px 18px 10px;
+            border-bottom: 1px solid #edf1f6;
+            color: #1b2430;
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .flow-tool-list {
+            display: grid;
+            align-content: start;
+            gap: 4px;
+            padding: 12px 10px 18px;
+            overflow: auto;
+        }
+
+        .flow-tool {
+            border: 0;
+            background: transparent;
+            text-align: left;
+            min-height: 34px;
+            display: grid;
+            grid-template-columns: 18px 1fr;
+            align-items: center;
+            gap: 10px;
+            border-radius: 10px;
+            padding: 0 10px;
+            color: #213041;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .flow-tool:hover {
+            background: #f7f9fc;
+        }
+
+        .flow-tool-icon {
+            width: 14px;
+            height: 14px;
+            display: inline-grid;
+            place-items: center;
+            border-radius: 4px;
+            background: #edf3ff;
+            color: #3d6fd6;
+            font-size: 10px;
+            font-weight: 900;
+        }
+
+        .flow-canvas-area {
+            position: relative;
+            min-width: 0;
+            background: #fbfdff;
+        }
+
         .builder {
             position: relative;
-            height: calc(100vh - 96px);
+            height: 100%;
+            min-height: calc(100vh - 182px);
             overflow: auto;
             padding: 0;
             background:
-                radial-gradient(circle, #cfd7df 1px, transparent 1px) 0 0 / 28px 28px,
-                #fbfcfd;
+                radial-gradient(circle, rgba(115, 151, 214, .34) 1px, transparent 1.5px) 0 0 / 24px 24px,
+                #fbfdff;
             cursor: grab;
             user-select: none;
         }
@@ -2275,84 +2416,195 @@
 
         .builder-stage {
             position: relative;
-            min-width: 1800px;
-            min-height: 1800px;
-            padding: 220px 24px 320px;
+            min-width: 2200px;
+            min-height: 1400px;
+            padding: 40px 80px 260px;
+            transform: scale(1);
+            transform-origin: top left;
         }
 
         .flow-shell {
             position: relative;
             width: fit-content;
-            margin: 0 auto;
-            transform: scale(1);
-            transform-origin: top center;
+            margin: 0;
+        }
+
+        .flow-links {
+            position: absolute;
+            inset: 0;
+            overflow: visible;
+            pointer-events: none;
+            z-index: 1;
         }
 
         .flow {
             position: relative;
-            width: 460px;
+            width: 360px;
             display: grid;
-            justify-items: center;
+            justify-items: start;
+        }
+
+        .flow {
+            --flow-connector-x: 114px;
         }
 
         .start-node {
-            width: 100%;
-            min-height: 64px;
-            display: grid;
-            place-items: center;
-            border-radius: 18px;
-            background: var(--brand);
-            color: white;
-            font-size: 25px;
-            font-weight: 900;
-            box-shadow: 0 14px 26px rgba(227, 27, 35, .18);
-        }
-
-        .line {
-            width: 2px;
-            height: 42px;
-            background: #1f2937;
-        }
-
-        .response-node {
-            width: 100%;
-            border: 1px solid var(--line-soft);
-            border-radius: 18px;
-            padding: 24px;
-            background: #f6f8fa;
-            box-shadow: var(--shadow);
-        }
-
-        .response-node h2 {
-            margin: 0 0 16px;
-            font-size: 24px;
-        }
-
-        .keyword-box {
-            min-height: 64px;
+            position: relative;
+            width: 132px;
+            min-height: 32px;
             display: flex;
             align-items: center;
-            border-radius: 14px;
-            background: white;
-            padding: 0 16px;
-            color: #1f2937;
-            font-size: 20px;
-            box-shadow: inset 0 0 0 1px var(--line-soft);
+            gap: 10px;
+            border: 1.5px solid rgba(219, 61, 61, .72);
+            border-radius: 8px;
+            background: #fff;
+            padding: 0 12px;
+            color: #1b2430;
+            font-size: 14px;
+            font-weight: 700;
+            box-shadow: 0 6px 18px rgba(17, 24, 39, .06);
+            margin-left: calc(var(--flow-connector-x) - 66px);
+            z-index: 2;
+        }
+
+        .start-node::before {
+            content: "";
+            width: 12px;
+            height: 12px;
+            border: 1.5px solid #49b675;
+            border-radius: 50%;
+            background: #fff;
+            flex: 0 0 auto;
+        }
+
+        .end-node-card {
+            position: relative;
+            width: 132px;
+            min-height: 32px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1.5px solid rgba(219, 61, 61, .72);
+            border-radius: 8px;
+            background: #fff;
+            padding: 0 12px;
+            color: #1b2430;
+            font-size: 14px;
+            font-weight: 700;
+            box-shadow: 0 6px 18px rgba(17, 24, 39, .06);
+        }
+
+        .end-node-card::before {
+            content: "";
+            width: 12px;
+            height: 12px;
+            border: 1.5px solid #db3d3d;
+            border-radius: 50%;
+            background: #fff;
+            flex: 0 0 auto;
+        }
+
+        .end-node-card .link-target {
+            left: -14px;
+        }
+
+        .end-node-card .remove-node {
+            margin-left: auto;
         }
 
         .bot-nodes {
             width: 100%;
+            position: relative;
+            min-height: 900px;
+        }
+
+        .canvas-node {
+            position: absolute;
+            width: 228px;
+            cursor: grab;
+            z-index: 2;
+        }
+
+        .canvas-node.dragging {
+            cursor: grabbing;
+            z-index: 8;
+        }
+
+        .canvas-node.active .bot-node {
+            box-shadow: 0 0 0 3px rgba(61, 111, 214, .18), 0 10px 26px rgba(17, 24, 39, .12);
+        }
+
+        .link-target {
+            position: absolute;
+            top: 50%;
+            left: -12px;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #3d6fd6;
+            border-radius: 999px;
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(17, 24, 39, .08);
+            transform: translateY(-50%);
+            z-index: 3;
+        }
+
+        .node-output-handles {
+            position: absolute;
+            top: 50%;
+            right: -14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transform: translateY(-50%);
+            z-index: 3;
+        }
+
+        .link-handle {
+            width: 22px;
+            height: 22px;
             display: grid;
-            justify-items: center;
+            place-items: center;
+            border: 1px solid rgba(61, 111, 214, .34);
+            border-radius: 999px;
+            background: #fff;
+            color: #3d6fd6;
+            font-size: 0;
+            font-weight: 900;
+            box-shadow: 0 4px 12px rgba(17, 24, 39, .1);
+            cursor: crosshair;
+        }
+
+        .start-node > .link-handle,
+        .start-link-handle {
+            position: absolute;
+            top: 50%;
+            right: -14px;
+            transform: translateY(-50%);
+            z-index: 3;
+        }
+
+        .link-handle::before {
+            content: "";
+            width: 9px;
+            height: 9px;
+            border-top: 2px solid currentColor;
+            border-right: 2px solid currentColor;
+            transform: rotate(45deg);
+            margin-left: -2px;
+        }
+
+        .link-handle:hover {
+            background: #f2f7ff;
         }
 
         .bot-node {
-            width: 100%;
-            border: 1px solid var(--line-soft);
-            border-radius: 18px;
-            padding: 20px;
-            background: white;
-            box-shadow: var(--shadow);
+            position: relative;
+            width: 228px;
+            border: 1.5px solid rgba(239, 80, 80, .76);
+            border-radius: 10px;
+            padding: 10px 12px 12px;
+            background: #fff;
+            box-shadow: 0 8px 22px rgba(17, 24, 39, .06);
         }
 
         .bot-node[data-flow-node],
@@ -2365,41 +2617,41 @@
             align-items: center;
             justify-content: space-between;
             gap: 12px;
-            margin-bottom: 14px;
+            margin-bottom: 8px;
         }
 
         .bot-node-title {
             display: grid;
-            gap: 8px;
+            gap: 2px;
         }
 
         .bot-node h2 {
             margin: 0;
-            color: var(--navy);
-            font-size: 20px;
+            color: #1b2430;
+            font-size: 14px;
             line-height: 1.25;
         }
 
         .node-pill {
             display: inline-flex;
             align-items: center;
-            min-height: 28px;
-            border-radius: 999px;
-            background: rgba(227, 27, 35, .08);
-            color: var(--brand);
-            padding: 4px 10px;
-            font-size: 12px;
-            font-weight: 900;
+            min-height: 18px;
+            color: #6b7280;
+            padding: 0;
+            font-size: 10px;
+            font-weight: 700;
+            background: transparent;
         }
 
         .node-message {
-            min-height: 60px;
+            min-height: 24px;
             display: flex;
             align-items: center;
-            border-radius: 12px;
-            background: #f7f9fb;
-            color: #526578;
-            padding: 14px;
+            border-radius: 0;
+            background: transparent;
+            color: #364152;
+            padding: 0;
+            font-size: 12px;
             line-height: 1.45;
         }
 
@@ -2422,30 +2674,68 @@
         }
 
         .node-buttons {
+            display: grid;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .node-option-item {
+            position: relative;
             display: flex;
-            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
             gap: 10px;
         }
 
+        .node-actions {
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 10px;
+        }
+
+        .node-view-button {
+            min-height: 28px;
+            border: 1px solid rgba(61, 111, 214, .18);
+            border-radius: 999px;
+            background: #f4f8ff;
+            color: #23408b;
+            padding: 0 12px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .01em;
+        }
+
+        .node-view-button:hover {
+            background: #eaf1ff;
+        }
+
         .node-button-pill {
-            min-height: 38px;
+            min-height: 32px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            border-radius: 999px;
-            background: rgba(0, 26, 65, .06);
-            color: var(--navy);
+            border-radius: 8px;
+            background: linear-gradient(180deg, #ef4444 0%, #c61f1f 100%);
+            color: #fff;
             padding: 0 14px;
-            font-size: 14px;
+            font-size: 11px;
             font-weight: 700;
-            box-shadow: inset 0 0 0 1px rgba(0, 26, 65, .08);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .24), 0 6px 12px rgba(198, 31, 31, .15);
+            flex: 1;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .node-option-item .link-handle {
+            position: static;
+            flex: 0 0 auto;
         }
 
         .button-branches {
             display: grid;
             gap: 14px;
             width: 100%;
-            margin-top: 18px;
+            margin-top: 14px;
         }
 
         .button-branches.two {
@@ -2471,31 +2761,31 @@
         }
 
         .button-branch-label {
-            min-height: 36px;
+            min-height: 24px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             justify-self: center;
             border-radius: 999px;
-            background: rgba(227, 27, 35, .08);
+            background: #fff4f4;
             color: var(--brand);
-            padding: 0 14px;
-            font-size: 13px;
+            padding: 0 10px;
+            font-size: 11px;
             font-weight: 800;
         }
 
         .button-branch-node {
-            min-height: 120px;
+            min-height: 82px;
             display: grid;
             align-content: start;
-            gap: 10px;
-            border-radius: 14px;
+            gap: 6px;
+            border-radius: 10px;
             background: white;
             color: #526578;
-            padding: 14px;
+            padding: 10px 12px;
             line-height: 1.45;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--line-soft);
+            box-shadow: 0 8px 22px rgba(17, 24, 39, .06);
+            border: 1.5px solid rgba(239, 80, 80, .76);
         }
 
         .button-branch-node:hover,
@@ -2508,19 +2798,20 @@
         }
 
         .button-branch-title {
-            color: var(--navy);
-            font-size: 16px;
+            color: #1b2430;
+            font-size: 13px;
             font-weight: 800;
         }
 
         .button-branch-copy {
-            min-height: 56px;
+            min-height: 24px;
             display: flex;
             align-items: center;
-            border-radius: 12px;
-            background: #f7f9fb;
-            padding: 12px;
-            box-shadow: inset 0 0 0 1px var(--line-soft);
+            border-radius: 0;
+            background: transparent;
+            padding: 0;
+            box-shadow: none;
+            font-size: 12px;
         }
 
         .branch-children {
@@ -2572,20 +2863,22 @@
         }
 
         .remove-node {
-            width: 34px;
-            height: 34px;
-            border: 1px solid var(--line);
-            border-radius: 8px;
+            width: 22px;
+            height: 22px;
+            border: 2px solid #111;
+            border-radius: 999px;
             background: white;
-            color: var(--brand);
-            font-size: 20px;
+            color: #111;
+            font-size: 14px;
             font-weight: 900;
             flex: 0 0 auto;
+            padding: 0;
+            line-height: 1;
         }
 
         .add-node {
             position: relative;
-            width: 100%;
+            width: 228px;
         }
 
         .add-node.branch-add {
@@ -2593,19 +2886,19 @@
         }
 
         .add-response {
-            width: 100%;
-            min-height: 70px;
+            width: 228px;
+            min-height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            border: 1px solid var(--line-soft);
-            border-radius: 18px;
-            background: #f6f8fa;
-            color: var(--text);
-            font-size: 22px;
-            font-weight: 900;
-            box-shadow: 0 10px 26px rgba(23, 35, 50, .04);
+            gap: 8px;
+            border: 1px dashed rgba(239, 80, 80, .55);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, .84);
+            color: #516172;
+            font-size: 13px;
+            font-weight: 800;
+            box-shadow: 0 8px 18px rgba(23, 35, 50, .04);
         }
 
         .add-response:hover {
@@ -2615,8 +2908,8 @@
         }
 
         .add-node.branch-add .add-response {
-            min-height: 58px;
-            font-size: 18px;
+            min-height: 38px;
+            font-size: 12px;
             border-style: dashed;
         }
 
@@ -2625,7 +2918,7 @@
         }
 
         .plus {
-            font-size: 32px;
+            font-size: 18px;
             line-height: 1;
         }
 
@@ -2865,28 +3158,31 @@
         }
 
         .zoom {
-            position: fixed;
-            left: 416px;
-            bottom: 18px;
-            display: grid;
-            width: 54px;
-            border: 1px solid var(--line);
-            border-radius: 12px;
+            position: absolute;
+            top: 10px;
+            right: 16px;
+            display: inline-flex;
+            align-items: center;
+            width: auto;
+            border: 1px solid #d8e0ea;
+            border-radius: 8px;
             background: white;
-            box-shadow: 0 10px 20px rgba(17, 24, 39, .08);
-            overflow: hidden;
-            z-index: 30;
+            box-shadow: 0 8px 20px rgba(17, 24, 39, .06);
+            overflow: visible;
+            z-index: 6;
         }
 
         .zoom button {
-            min-height: 40px;
+            min-width: 34px;
+            min-height: 28px;
             border: 0;
-            border-bottom: 1px solid var(--line);
+            border-right: 1px solid #e4ebf3;
             background: white;
-            color: var(--navy);
-            font-size: 18px;
+            color: #324256;
+            font-size: 12px;
             font-weight: 800;
             line-height: 1;
+            padding: 0 8px;
         }
 
         .zoom button.active {
@@ -2899,18 +3195,19 @@
             color: var(--brand);
         }
 
-        .zoom button[data-zoom-action="reset"],
         .zoom button[data-zoom-action="fit"] {
-            font-size: 12px;
+            font-size: 11px;
             letter-spacing: .03em;
         }
 
-        .zoom button:last-child { border-bottom: 0; }
+        .zoom button:last-child {
+            border-right: 0;
+        }
 
         .zoom-presets {
             position: absolute;
-            left: 72px;
-            bottom: 40px;
+            right: 0;
+            top: calc(100% + 8px);
             width: 74px;
             display: none;
             grid-template-columns: 1fr;
@@ -3025,10 +3322,21 @@
                 grid-template-columns: 1fr;
             }
 
-            .flow-editor-panel {
-                position: static;
+            .flow-workspace {
                 grid-template-columns: 1fr;
-                max-height: none;
+            }
+
+            .flow-toolbox {
+                border-right: 0;
+                border-bottom: 1px solid #e6ebf2;
+            }
+
+            .flow-editor-panel {
+                top: 0;
+                right: 0;
+                bottom: 0;
+                width: min(100vw, 560px);
+                grid-template-columns: 1fr;
             }
 
             .flow-preview-card {
@@ -3052,7 +3360,7 @@
             .menu {
                 left: auto;
                 right: 0;
-                top: 74px;
+                top: 48px;
             }
             .builder-stage {
                 min-width: 1200px;
@@ -3583,39 +3891,81 @@
                 </section>
 
                 <div class="template-view template-builder-grid" id="interactiveBuilderPage">
-                    <section class="screen active" data-screen="0">
-                        <div class="builder" id="builderCanvas">
-                            <div class="builder-stage" id="builderStage">
-                                <div class="flow-shell" id="flowShell">
-                                    <div class="flow">
-                                        <div class="start-node">Start</div>
-                                        <div class="line"></div>
-                                        <div class="response-node">
-                                            <h2>User Response</h2>
-                                            <div class="keyword-box" id="userKeywordPreview">Any Keyword Send</div>
+                    <div class="flow-workspace">
+                        <aside class="flow-toolbox" aria-label="Flow tools">
+                            <div class="flow-toolbox-head">
+                                <div class="flow-toolbox-title">
+                                    <span class="flow-toolbox-badge">{ }</span>
+                                    <span>Variable</span>
+                                </div>
+                                <button class="flow-toolbox-add" type="button">+</button>
+                            </div>
+                            <div class="flow-toolbox-section">Tools</div>
+                            <div class="flow-tool-list">
+                                <button class="flow-tool" type="button" data-node="Send Text"><span class="flow-tool-icon">T</span><span>Send Text</span></button>
+                                <button class="flow-tool" type="button" data-node="Send Button"><span class="flow-tool-icon">B</span><span>Send Button</span></button>
+                                <button class="flow-tool" type="button" data-node="Send Template"><span class="flow-tool-icon">T</span><span>Send Template</span></button>
+                                <button class="flow-tool" type="button" data-node="Send Survey"><span class="flow-tool-icon">S</span><span>Send Survey</span></button>
+                                <button class="flow-tool" type="button" data-node="Send List"><span class="flow-tool-icon">L</span><span>Send List</span></button>
+                                <button class="flow-tool" type="button" data-node="Waiting Response"><span class="flow-tool-icon">W</span><span>Waiting Response</span></button>
+                                <button class="flow-tool" type="button" data-node="Validation"><span class="flow-tool-icon">V</span><span>Validation</span></button>
+                                <button class="flow-tool" type="button" data-node="Send Email"><span class="flow-tool-icon">E</span><span>Send Email</span></button>
+                                <button class="flow-tool" type="button" data-node="Branch"><span class="flow-tool-icon">B</span><span>Branch</span></button>
+                                <button class="flow-tool" type="button" data-node="HTTP Request"><span class="flow-tool-icon">H</span><span>HTTP Request</span></button>
+                                <button class="flow-tool" type="button" data-node="Send Media"><span class="flow-tool-icon">M</span><span>Send Media</span></button>
+                                <button class="flow-tool" type="button" data-node="Send Catalog"><span class="flow-tool-icon">C</span><span>Send Catalog</span></button>
+                                <button class="flow-tool" type="button" data-node="Chat to Agent"><span class="flow-tool-icon">C</span><span>Chat to Agent</span></button>
+                                <button class="flow-tool" type="button" data-node="Assign Variable"><span class="flow-tool-icon">A</span><span>Assign Variable</span></button>
+                                <button class="flow-tool" type="button" data-node="Receive Order"><span class="flow-tool-icon">R</span><span>Receive Order</span></button>
+                                <button class="flow-tool" type="button" data-node="Receive Product Inquiry"><span class="flow-tool-icon">P</span><span>Receive Product Inquiry</span></button>
+                                <button class="flow-tool" type="button" data-node="Send Location"><span class="flow-tool-icon">L</span><span>Send Location</span></button>
+                                <button class="flow-tool" type="button" data-node="Multiple Location"><span class="flow-tool-icon">M</span><span>Multiple Location</span></button>
+                                <button class="flow-tool" type="button" data-node="WA Flow"><span class="flow-tool-icon">W</span><span>WA Flow</span></button>
+                                <button class="flow-tool" type="button" data-node="Request Location"><span class="flow-tool-icon">R</span><span>Request Location</span></button>
+                                <button class="flow-tool" type="button" data-node="Call To Agent"><span class="flow-tool-icon">C</span><span>Call To Agent</span></button>
+                                <button class="flow-tool" type="button" data-node="End"><span class="flow-tool-icon">E</span><span>End</span></button>
+                            </div>
+                        </aside>
+
+                        <div class="flow-canvas-area">
+                            <section class="screen active" data-screen="0">
+                                <div class="builder" id="builderCanvas">
+                                    <div class="builder-stage" id="builderStage">
+                                        <div class="flow-shell" id="flowShell">
+                                            <div class="flow">
+                                                <div class="start-node">Start
+                                                    <button class="link-handle start-link-handle" type="button" data-link-start="start" aria-label="Hubungkan Start">→</button>
+                                                </div>
+                                                <div class="bot-nodes" id="botNodes"></div>
+                                            </div>
                                         </div>
-                                        <div class="line"></div>
-                                        <div class="bot-nodes" id="botNodes"></div>
+                                        <svg class="flow-links" id="flowLinks" aria-hidden="true">
+                                            <defs>
+                                                <marker id="flowArrowHead" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+                                                    <path d="M0,0 L8,4 L0,8 z" fill="#3d6fd6"></path>
+                                                </marker>
+                                            </defs>
+                                        </svg>
+                                    </div>
+
+                                    <div class="zoom" aria-label="Canvas controls">
+                                        <button type="button" data-zoom-action="fit">Reset</button>
+                                        <button type="button" data-zoom-action="preset-toggle" id="zoomPresetToggle">100%</button>
+                                        <button type="button" data-zoom-action="in">+</button>
+                                        <div class="zoom-presets" id="zoomPresets">
+                                            <button type="button" data-zoom-preset="1">100%</button>
+                                            <button type="button" data-zoom-preset="0.75">75%</button>
+                                            <button type="button" data-zoom-preset="0.5">50%</button>
+                                            <button type="button" data-zoom-preset="0.25">25%</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="zoom" aria-label="Canvas controls">
-                                <button type="button" data-zoom-action="in">+</button>
-                                <button type="button" data-zoom-action="out">-</button>
-                                <button type="button" data-zoom-action="preset-toggle" id="zoomPresetToggle">100%</button>
-                                <button type="button" data-zoom-action="fit">FIT</button>
-                                <div class="zoom-presets" id="zoomPresets">
-                                    <button type="button" data-zoom-preset="1">100%</button>
-                                    <button type="button" data-zoom-preset="0.75">75%</button>
-                                    <button type="button" data-zoom-preset="0.5">50%</button>
-                                    <button type="button" data-zoom-preset="0.25">25%</button>
-                                </div>
-                            </div>
+                            </section>
                         </div>
-                    </section>
+                    </div>
 
-                    <aside class="flow-editor-panel" id="flowEditorPanel" aria-label="Editor dan preview flow">
+                    <div class="flow-editor-backdrop" id="flowEditorBackdrop" aria-hidden="true"></div>
+                    <aside class="flow-editor-panel" id="flowEditorPanel" aria-label="Editor dan preview flow" aria-hidden="true">
                         <div class="flow-editor-empty" id="flowEditorEmpty">
                             Pilih atau tambah flow untuk mengubah value di panel ini.
                         </div>
@@ -4006,10 +4356,10 @@
 </section>
 
 <div class="drawer-backdrop" id="drawerBackdrop"></div>
-<aside class="text-drawer" id="textMessageDrawer" aria-hidden="true">
-    <div class="drawer-head">
+    <aside class="text-drawer" id="textMessageDrawer" aria-hidden="true">
+        <div class="drawer-head">
         <div>
-            <h2 id="messageDrawerTitle">Text Message</h2>
+            <h2 id="messageDrawerTitle">Send Text</h2>
         </div>
         <button class="drawer-close" type="button" data-drawer-close>&times;</button>
     </div>
@@ -4044,6 +4394,58 @@
                 <textarea class="drawer-textarea" id="drawerFallbackText" maxlength="1024" placeholder="Tulis pesan fallback jika dibutuhkan"></textarea>
             </div>
 
+            <div class="drawer-field hidden" id="emailToField">
+                <label for="emailToInput">To</label>
+                <input class="drawer-input" id="emailToInput" maxlength="255" placeholder="customer@email.com">
+            </div>
+
+            <div class="drawer-field hidden" id="emailCcField">
+                <label for="emailCcInput">CC</label>
+                <input class="drawer-input" id="emailCcInput" maxlength="255" placeholder="ops@email.com, sales@email.com">
+            </div>
+
+            <div class="drawer-field hidden" id="emailSubjectField">
+                <label for="emailSubjectInput">Subject</label>
+                <input class="drawer-input" id="emailSubjectInput" maxlength="255" placeholder="Masukkan subject email">
+            </div>
+
+            <div class="drawer-field hidden" id="agentSelectorField">
+                <label for="agentSelector">Pilih Agent</label>
+                <select class="drawer-input" id="agentSelector"></select>
+                <small id="agentSelectorHelp" style="display:block;margin-top:8px;color:#6b7280;font-size:12px;"></small>
+            </div>
+
+            <div class="drawer-field hidden" id="mediaTypeField">
+                <label for="mediaTypeSelector">Tipe Media</label>
+                <select class="drawer-input" id="mediaTypeSelector"></select>
+            </div>
+
+            <div class="drawer-field hidden" id="mediaSourceField">
+                <label for="mediaSourceInput">Media URL / File</label>
+                <input class="drawer-input" id="mediaSourceInput" maxlength="1024" placeholder="Pilih tipe media terlebih dahulu">
+                <small id="mediaSourceHelp" style="display:block;margin-top:8px;color:#6b7280;font-size:12px;">Pilih tipe media terlebih dahulu</small>
+            </div>
+
+            <div class="drawer-field hidden" id="locationNameField">
+                <label for="locationNameInput">Nama Lokasi</label>
+                <input class="drawer-input" id="locationNameInput" maxlength="255" placeholder="Nama Lokasi">
+            </div>
+
+            <div class="drawer-field hidden" id="locationSearchField">
+                <button class="btn" type="button" id="locationSearchButton">Cari Lokasi</button>
+                <small id="locationSearchHelp" style="display:block;margin-top:8px;color:#6b7280;font-size:12px;">Klik untuk memilih atau mencari lokasi.</small>
+            </div>
+
+            <div class="drawer-field hidden" id="requestLocationInfoField">
+                <small id="requestLocationInfoHelp" style="display:block;color:#1f2d3d;font-size:14px;">This contains a Request Location Feature.</small>
+            </div>
+
+            <div class="drawer-field hidden" id="templateSelectorField">
+                <label for="templateSelector">Pilih Template</label>
+                <select class="drawer-input" id="templateSelector"></select>
+                <small id="templateSelectorHelp" style="display:block;margin-top:8px;color:#6b7280;font-size:12px;"></small>
+            </div>
+
             <div class="drawer-field hidden" id="optionsEditorField">
                 <label id="optionsEditorLabel">Buttons</label>
                 <div class="options-editor" id="optionsEditorList"></div>
@@ -4076,6 +4478,7 @@
     const createInteractiveButton = document.getElementById('createInteractiveButton');
     const interactiveSearchInput = document.getElementById('interactiveSearchInput');
     const interactiveTableBody = document.getElementById('interactiveTableBody');
+    const flowToolList = document.querySelector('.flow-tool-list');
     const sessionBackButton = document.getElementById('sessionBackButton');
     const sessionSaveButton = document.getElementById('sessionSaveButton');
     const sessionCountInput = document.getElementById('sessionCountInput');
@@ -4109,6 +4512,7 @@
     const builderCanvas = document.getElementById('builderCanvas');
     const builderStage = document.getElementById('builderStage');
     const flowShell = document.getElementById('flowShell');
+    const flowLinks = document.getElementById('flowLinks');
     const zoomPresetToggle = document.getElementById('zoomPresetToggle');
     const zoomPresets = document.getElementById('zoomPresets');
     const setupBackdrop = document.getElementById('setupBackdrop');
@@ -4126,21 +4530,45 @@
     const wabaAccountNumber = document.getElementById('wabaAccountNumber');
     const wabaAccountOptions = document.getElementById('wabaAccountOptions');
     const triggerKeywordInput = document.getElementById('triggerKeyword');
-    const userKeywordPreview = document.getElementById('userKeywordPreview');
     const drawerBackdrop = document.getElementById('drawerBackdrop');
     const textMessageDrawer = document.getElementById('textMessageDrawer');
     const messageDrawerTitle = document.getElementById('messageDrawerTitle');
+    const headerSection = textMessageDrawer.querySelector('.drawer-section');
     const headerTextField = document.getElementById('headerTextField');
     const headerImageField = document.getElementById('headerImageField');
     const drawerHeaderText = document.getElementById('drawerHeaderText');
     const drawerHeaderImage = document.getElementById('drawerHeaderImage');
     const drawerBodyText = document.getElementById('drawerBodyText');
     const drawerFallbackText = document.getElementById('drawerFallbackText');
+    const emailToField = document.getElementById('emailToField');
+    const emailCcField = document.getElementById('emailCcField');
+    const emailSubjectField = document.getElementById('emailSubjectField');
+    const emailToInput = document.getElementById('emailToInput');
+    const emailCcInput = document.getElementById('emailCcInput');
+    const emailSubjectInput = document.getElementById('emailSubjectInput');
+    const agentSelectorField = document.getElementById('agentSelectorField');
+    const agentSelector = document.getElementById('agentSelector');
+    const agentSelectorHelp = document.getElementById('agentSelectorHelp');
+    const mediaTypeField = document.getElementById('mediaTypeField');
+    const mediaTypeSelector = document.getElementById('mediaTypeSelector');
+    const mediaSourceField = document.getElementById('mediaSourceField');
+    const mediaSourceInput = document.getElementById('mediaSourceInput');
+    const mediaSourceHelp = document.getElementById('mediaSourceHelp');
+    const locationNameField = document.getElementById('locationNameField');
+    const locationNameInput = document.getElementById('locationNameInput');
+    const locationSearchField = document.getElementById('locationSearchField');
+    const locationSearchButton = document.getElementById('locationSearchButton');
+    const locationSearchHelp = document.getElementById('locationSearchHelp');
+    const requestLocationInfoField = document.getElementById('requestLocationInfoField');
+    const templateSelectorField = document.getElementById('templateSelectorField');
+    const templateSelector = document.getElementById('templateSelector');
+    const templateSelectorHelp = document.getElementById('templateSelectorHelp');
     const optionsEditorField = document.getElementById('optionsEditorField');
     const optionsEditorLabel = document.getElementById('optionsEditorLabel');
     const optionsEditorList = document.getElementById('optionsEditorList');
     const addOptionButton = document.getElementById('addOptionButton');
     const flowEditorPanel = document.getElementById('flowEditorPanel');
+    const flowEditorBackdrop = document.getElementById('flowEditorBackdrop');
     const flowEditorMount = document.getElementById('flowEditorMount');
     const flowMessagePreview = document.getElementById('flowMessagePreview');
     const csrf = document.querySelector('meta[name="csrf-token"]').content;
@@ -4160,45 +4588,332 @@
     let panScrollTop = 0;
     let activeDrawerTargetId = null;
     let activeSessionRow = null;
+    let activeDragNodeId = null;
+    let dragPointerId = null;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let dragNodeOriginX = 0;
+    let dragNodeOriginY = 0;
+    let flowConnections = [];
+    let activeLinkDrag = null;
     const menuOptionsMarkup = `
-        <button type="button" data-node="Text Messages">Text Messages</button>
-        <button type="button" data-node="Button">Button</button>
-        <button type="button" data-node="List">List</button>
+        <button type="button" data-node="Send Text">Send Text</button>
+        <button type="button" data-node="Send Button">Send Button</button>
+        <button type="button" data-node="Send Template">Send Template</button>
+        <button type="button" data-node="Send Survey">Send Survey</button>
+        <button type="button" data-node="Send List">Send List</button>
+        <button type="button" data-node="Waiting Response">Waiting Response</button>
+        <button type="button" data-node="Validation">Validation</button>
+        <button type="button" data-node="Send Email">Send Email</button>
+        <button type="button" data-node="Branch">Branch</button>
+        <button type="button" data-node="HTTP Request">HTTP Request</button>
+        <button type="button" data-node="Send Media">Send Media</button>
+        <button type="button" data-node="Send Catalog">Send Catalog</button>
+        <button type="button" data-node="Chat to Agent">Chat to Agent</button>
+        <button type="button" data-node="Assign Variable">Assign Variable</button>
+        <button type="button" data-node="Receive Order">Receive Order</button>
+        <button type="button" data-node="Receive Product Inquiry">Receive Product Inquiry</button>
+        <button type="button" data-node="Send Location">Send Location</button>
+        <button type="button" data-node="Multiple Location">Multiple Location</button>
+        <button type="button" data-node="WA Flow">WA Flow</button>
+        <button type="button" data-node="Request Location">Request Location</button>
+        <button type="button" data-node="Call To Agent">Call To Agent</button>
+        <button type="button" data-node="End">End</button>
     `;
 
     flowEditorMount.appendChild(textMessageDrawer);
     textMessageDrawer.setAttribute('aria-hidden', 'false');
 
-    function isMessageDrawerNode(node) {
-        return ['text_messages', 'button', 'list'].includes(node?.type);
+    const TOOL_NODE_PRESETS = {
+        'Send Text': {
+            type: 'text_messages',
+            headerType: 'text',
+            headerText: 'Promo Spesial',
+            body: 'Tulis body pesan untuk pelanggan Anda di sini.',
+            fallback: 'Maaf, pesan belum bisa diproses. Silakan coba beberapa saat lagi.',
+        },
+        'Send Button': {
+            type: 'button',
+            headerType: 'text',
+            headerText: 'Promo Spesial',
+            body: 'Tulis body pesan untuk pelanggan Anda di sini.',
+            fallback: 'Maaf, pesan belum bisa diproses. Silakan coba beberapa saat lagi.',
+            options: ['Lanjut', 'Nanti Saja'],
+        },
+        'Send Template': {
+            type: 'send_template',
+            headerType: 'text',
+            headerText: 'Template Resmi',
+            body: 'Pilih template WhatsApp yang sudah disetujui, lalu isi parameter yang diperlukan sebelum dikirim.',
+            fallback: 'Template belum siap atau belum tersinkronisasi.',
+        },
+        'Send Survey': {
+            type: 'send_survey',
+            headerType: 'text',
+            headerText: 'Survey Singkat',
+            body: 'Ajukan survey singkat untuk mengetahui kebutuhan atau kepuasan pelanggan.',
+            fallback: 'Survey belum dapat ditampilkan saat ini.',
+            options: ['Sangat Puas', 'Cukup Puas', 'Butuh Bantuan'],
+        },
+        'Send List': {
+            type: 'list',
+            headerType: 'text',
+            headerText: 'Promo Spesial',
+            body: 'Tulis body pesan untuk pelanggan Anda di sini.',
+            fallback: 'Maaf, pesan belum bisa diproses. Silakan coba beberapa saat lagi.',
+            options: ['Pilihan 1', 'Pilihan 2', 'Pilihan 3'],
+        },
+        'Waiting Response': {
+            type: 'waiting_response',
+            headerType: 'text',
+            headerText: 'Menunggu Balasan',
+            body: 'Tahan flow sampai pelanggan mengirimkan balasan atau sampai kondisi timeout tercapai.',
+            fallback: 'Pelanggan belum memberikan balasan dalam waktu yang ditentukan.',
+        },
+        'Validation': {
+            type: 'validation',
+            headerType: 'text',
+            headerText: 'Cek Input',
+            body: 'Validasi input bebas dari pelanggan, misalnya email, nomor HP, atau format data tertentu setelah Waiting Response.',
+            fallback: 'Input pelanggan tidak valid. Minta pelanggan mengirim ulang data.',
+        },
+        'Send Email': {
+            type: 'send_email',
+            headerType: 'text',
+            headerText: 'Email Notification',
+            body: 'Kirim email notifikasi berdasarkan data yang terkumpul dari percakapan.',
+            fallback: 'Email belum berhasil dikirim. Silakan cek kembali konfigurasinya.',
+            emailTo: '@{{customer_email}}',
+            emailCc: '',
+            emailSubject: 'Notifikasi dari Flow Builder',
+        },
+        'Branch': {
+            type: 'branch',
+            headerType: 'text',
+            headerText: 'Percabangan',
+            body: 'Pisahkan alur berdasarkan kondisi tertentu atau keputusan pelanggan.',
+            fallback: '',
+            options: ['Ya', 'Tidak'],
+        },
+        'HTTP Request': {
+            type: 'http_request',
+            headerType: 'text',
+            headerText: 'API Request',
+            body: 'Kirim request ke endpoint eksternal, simpan response yang dibutuhkan, lalu arahkan flow berdasarkan hasil request.',
+            fallback: 'Request gagal dijalankan atau endpoint tidak merespons.',
+            options: ['Response Received', 'Network Error'],
+        },
+        'Send Media': {
+            type: 'send_media',
+            headerType: 'image',
+            headerText: '',
+            body: 'Kirim gambar, video, audio, atau dokumen kepada pelanggan.',
+            fallback: 'Media belum tersedia untuk dikirim saat ini.',
+            mediaType: '',
+            mediaSource: '',
+        },
+        'Send Catalog': {
+            type: 'send_catalog',
+            headerType: 'text',
+            headerText: 'Katalog Produk',
+            body: 'Tampilkan katalog produk yang paling relevan untuk pelanggan.',
+            fallback: 'Katalog belum tersedia saat ini.',
+        },
+        'Chat to Agent': {
+            type: 'chat_to_agent',
+            headerType: 'text',
+            headerText: 'Alihkan ke Agent',
+            body: 'Teruskan percakapan aktif ke agent yang tersedia.',
+            fallback: 'Belum ada agent yang tersedia saat ini.',
+            agentId: 'agent_dina',
+        },
+        'Assign Variable': {
+            type: 'assign_variable',
+            headerType: 'text',
+            headerText: 'Simpan Variable',
+            body: 'Simpan nilai tertentu dari pelanggan ke variable flow untuk dipakai di langkah berikutnya.',
+            fallback: '',
+        },
+        'Receive Order': {
+            type: 'receive_order',
+            headerType: 'text',
+            headerText: 'Data Order',
+            body: 'Tunggu dan validasi data pesanan pelanggan sebelum diteruskan ke proses order berikutnya.',
+            fallback: 'Detail pesanan belum lengkap. Minta pelanggan melengkapi datanya.',
+            options: ['Order Diterima', 'Perlu Verifikasi'],
+        },
+        'Receive Product Inquiry': {
+            type: 'receive_product_inquiry',
+            headerType: 'text',
+            headerText: 'Pertanyaan Produk',
+            body: 'Tangkap pertanyaan produk dari pelanggan lalu arahkan ke jawaban otomatis atau ke agent bila perlu.',
+            fallback: 'Pertanyaan produk belum bisa diproses saat ini.',
+            options: ['Pertanyaan Diterima', 'Perlu Klarifikasi'],
+        },
+        'Send Location': {
+            type: 'send_location',
+            headerType: 'text',
+            headerText: 'Lokasi Kami',
+            body: 'Kirim satu lokasi utama bisnis atau titik layanan kepada pelanggan.',
+            fallback: 'Lokasi belum tersedia untuk dikirim saat ini.',
+            locationName: '',
+        },
+        'Multiple Location': {
+            type: 'multiple_location',
+            headerType: 'text',
+            headerText: 'Pilih Lokasi',
+            body: 'Tampilkan beberapa lokasi agar pelanggan bisa memilih cabang terdekat.',
+            fallback: 'Daftar lokasi belum tersedia saat ini.',
+            options: ['Lokasi 1', 'Lokasi 2', 'Lokasi 3'],
+        },
+        'WA Flow': {
+            type: 'wa_flow',
+            headerType: 'text',
+            headerText: 'WhatsApp Flow',
+            body: 'Pilih WhatsApp Flow yang sudah tersedia dari Meta/template sync untuk mengumpulkan input pelanggan secara terstruktur.',
+            fallback: 'WhatsApp Flow belum tersedia atau belum tersinkronisasi.',
+        },
+        'Request Location': {
+            type: 'request_location',
+            headerType: 'text',
+            headerText: 'Minta Lokasi',
+            body: 'Minta pelanggan mengirimkan lokasi terkini mereka sebelum flow dilanjutkan.',
+            fallback: 'Lokasi pelanggan belum diterima.',
+        },
+        'Call To Agent': {
+            type: 'call_to_agent',
+            headerType: 'text',
+            headerText: 'Hubungi Agent',
+            body: 'Arahkan pelanggan untuk terhubung langsung ke agent melalui panggilan.',
+            fallback: 'Agent panggilan belum tersedia saat ini.',
+            agentId: 'agent_dina',
+        },
+        'End': {
+            type: 'end',
+            headerType: '',
+            headerText: '',
+            body: '',
+            fallback: '',
+        },
+    };
+
+    const OPTION_NODE_TYPES = {
+        button: { limit: 2, label: 'Buttons', addLabel: '+ Button', placeholder: 'Label tombol' },
+        list: { limit: 5, label: 'List Options', addLabel: '+ List Option', placeholder: 'Label pilihan list' },
+        send_survey: { limit: 5, label: 'Survey Options', addLabel: '+ Survey Option', placeholder: 'Pilihan survey' },
+        branch: { limit: 4, label: 'Branch Paths', addLabel: '+ Branch Path', placeholder: 'Label percabangan' },
+        http_request: { limit: 4, label: 'HTTP Routes', addLabel: '+ HTTP Route', placeholder: 'Label route HTTP' },
+        receive_order: { limit: 3, label: 'Order Paths', addLabel: '+ Order Path', placeholder: 'Label status order' },
+        receive_product_inquiry: { limit: 3, label: 'Inquiry Paths', addLabel: '+ Inquiry Path', placeholder: 'Label pertanyaan' },
+        multiple_location: { limit: 5, label: 'Location Options', addLabel: '+ Location Option', placeholder: 'Nama lokasi' },
+    };
+
+    const TEMPLATE_LIBRARY = [
+        {
+            id: 'promo_bulanan',
+            name: 'Promo Bulanan',
+            category: 'Marketing',
+            content: 'Halo {{1}}, ada promo bulanan terbaru yang bisa kamu gunakan hari ini.',
+        },
+        {
+            id: 'reminder_pembayaran',
+            name: 'Reminder Pembayaran',
+            category: 'Utility',
+            content: 'Halo {{1}}, kami mengingatkan bahwa pembayaran untuk order {{2}} akan jatuh tempo hari ini.',
+        },
+        {
+            id: 'otp_login',
+            name: 'OTP Login',
+            category: 'Authentication',
+            content: 'Kode OTP kamu adalah {{1}}. Jangan bagikan kode ini kepada siapa pun.',
+        },
+    ];
+
+    const AGENT_LIBRARY = [
+        {
+            id: 'agent_dina',
+            name: 'Dina Support',
+            team: 'Customer Support',
+            note: 'Cocok untuk percakapan umum dan bantuan pelanggan.',
+        },
+        {
+            id: 'agent_budi',
+            name: 'Budi Sales',
+            team: 'Sales Team',
+            note: 'Cocok untuk follow-up prospek, penawaran, dan closing.',
+        },
+        {
+            id: 'agent_rina',
+            name: 'Rina Priority Care',
+            team: 'Priority Care',
+            note: 'Cocok untuk pelanggan prioritas dan eskalasi khusus.',
+        },
+    ];
+
+    const MEDIA_TYPE_LIBRARY = [
+        { id: '', name: 'Pilih tipe media', placeholder: 'Pilih tipe media terlebih dahulu' },
+        { id: 'image', name: 'Image', placeholder: 'https://example.com/image.jpg' },
+        { id: 'video', name: 'Video', placeholder: 'https://example.com/video.mp4' },
+        { id: 'document', name: 'Document', placeholder: 'https://example.com/file.pdf' },
+        { id: 'audio', name: 'Audio', placeholder: 'https://example.com/audio.mp3' },
+    ];
+
+    function getToolPreset(type) {
+        return TOOL_NODE_PRESETS[type] || null;
     }
 
-    function createBranchFlow(label) {
+    function getOptionNodeConfig(type) {
+        return OPTION_NODE_TYPES[type] || null;
+    }
+
+    function getTemplateById(templateId) {
+        return TEMPLATE_LIBRARY.find((template) => template.id === templateId) || TEMPLATE_LIBRARY[0] || null;
+    }
+
+    function getAgentById(agentId) {
+        return AGENT_LIBRARY.find((agent) => agent.id === agentId) || AGENT_LIBRARY[0] || null;
+    }
+
+    function getMediaTypeById(mediaTypeId) {
+        return MEDIA_TYPE_LIBRARY.find((mediaType) => mediaType.id === mediaTypeId) || MEDIA_TYPE_LIBRARY[0];
+    }
+
+    function isMessageDrawerNode(node) {
+        return Boolean(node && node.type !== 'end');
+    }
+
+    function createBranchFlow(label, sourceType = 'button') {
+        const branchLabel = label || (sourceType === 'branch' ? 'Path' : 'Button');
         return {
             id: `branch-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`,
-            label: label || 'Button',
-            title: 'Text Message',
+            label: branchLabel,
+            title: 'Send Text',
             type: 'text_messages',
             headerType: 'text',
             headerText: '',
             headerImage: '',
-            body: `Text lanjutan untuk tombol "${label || 'Button'}"`,
+            body: sourceType === 'branch'
+                ? `Lanjutan flow untuk cabang "${branchLabel}"`
+                : `Text lanjutan untuk tombol "${branchLabel}"`,
             fallback: '',
             childNodes: [],
         };
     }
 
     function syncButtonBranches(node) {
-        if (!['button', 'list'].includes(node.type)) return;
+        if (!['button', 'list', 'branch'].includes(node.type)) return;
 
-        const labels = (node.options || []).slice(0, node.type === 'button' ? 2 : 5);
+        const limit = node.type === 'button' ? 2 : (node.type === 'list' ? 5 : 4);
+        const labels = (node.options || []).slice(0, limit);
         const existing = node.branchFlows || [];
 
         node.branchFlows = labels.map((label, index) => {
-            const branch = existing[index] || createBranchFlow(label);
-            branch.label = label || `Button ${index + 1}`;
+            const branch = existing[index] || createBranchFlow(label, node.type);
+            branch.label = label || (node.type === 'branch' ? `Path ${index + 1}` : `Button ${index + 1}`);
             if (!branch.body) {
-                branch.body = `Text lanjutan untuk tombol "${branch.label}"`;
+                branch.body = node.type === 'branch'
+                    ? `Lanjutan flow untuk cabang "${branch.label}"`
+                    : `Text lanjutan untuk tombol "${branch.label}"`;
             }
             return branch;
         });
@@ -4214,7 +4929,7 @@
 
         requestAnimationFrame(() => {
             if (!hasCenteredBuilder) {
-                centerBuilderView();
+                alignBuilderTopLeft();
                 hasCenteredBuilder = true;
             }
             applyZoom(zoomLevel);
@@ -4227,8 +4942,14 @@
 
     function applyZoom(value) {
         zoomLevel = clamp(Number(value) || 1, 0.25, 1.8);
-        flowShell.style.transform = `scale(${zoomLevel})`;
+        builderStage.style.transform = `scale(${zoomLevel})`;
         syncZoomControls();
+        renderFlowConnections();
+    }
+
+    function alignBuilderTopLeft() {
+        builderCanvas.scrollLeft = 0;
+        builderCanvas.scrollTop = 0;
     }
 
     function centerBuilderView() {
@@ -4365,8 +5086,9 @@
         sessionSettingsPage.classList.remove('active');
         sessionReviewPage.classList.remove('active');
         interactiveBuilderPage.classList.add('active');
+        closeTextMessageDrawer();
         requestAnimationFrame(() => {
-            centerBuilderView();
+            alignBuilderTopLeft();
             applyZoom(zoomLevel);
         });
     }
@@ -4395,6 +5117,13 @@
         const normalizedCount = Math.max(0, Number(count) || 0);
         sessionCell.dataset.sessionCount = String(normalizedCount);
         sessionCell.textContent = formatSessionCount(normalizedCount);
+    }
+
+    function setFlowEditorPanelOpen(isOpen) {
+        flowEditorPanel.classList.toggle('open', isOpen);
+        flowEditorBackdrop.classList.toggle('open', isOpen);
+        flowEditorPanel.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+        flowEditorBackdrop.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
     }
 
     function showSessionReview() {
@@ -4453,9 +5182,7 @@
         showInteractiveList();
     }
 
-    function syncSetupPreview() {
-        userKeywordPreview.textContent = getKeywordText();
-    }
+    function syncSetupPreview() {}
 
     function setWabaAccount(name = '', number = '') {
         selectedWabaAccount = name.trim();
@@ -4524,9 +5251,28 @@
 
     function defaultMessage(type) {
         const messages = {
-            'Text Messages': 'Kirim pesan teks otomatis ke pelanggan.',
-            Button: 'Tampilkan pilihan tombol cepat untuk pelanggan.',
-            List: 'Tampilkan daftar opsi yang bisa dipilih pelanggan.',
+            'Send Text': 'Kirim pesan teks otomatis ke pelanggan.',
+            'Send Button': 'Tampilkan pilihan tombol cepat untuk pelanggan.',
+            'Send Template': 'Kirim template WhatsApp yang sudah disetujui.',
+            'Send Survey': 'Kirim survey singkat untuk mengumpulkan jawaban pelanggan.',
+            'Send List': 'Tampilkan daftar opsi yang bisa dipilih pelanggan.',
+            'Waiting Response': 'Tunggu sampai pelanggan mengirimkan balasan.',
+            'Validation': 'Validasi data atau jawaban pelanggan sebelum lanjut.',
+            'Send Email': 'Kirim email notifikasi dari data percakapan.',
+            'Branch': 'Pisahkan flow berdasarkan kondisi atau keputusan tertentu.',
+            'HTTP Request': 'Hubungkan flow dengan API atau sistem eksternal.',
+            'Send Media': 'Kirim media seperti gambar, video, atau dokumen.',
+            'Send Catalog': 'Tampilkan katalog produk kepada pelanggan.',
+            'Chat to Agent': 'Alihkan percakapan ke agent yang tersedia.',
+            'Assign Variable': 'Simpan nilai ke variable untuk langkah berikutnya.',
+            'Receive Order': 'Terima dan olah data pesanan pelanggan.',
+            'Receive Product Inquiry': 'Terima pertanyaan produk dari pelanggan.',
+            'Send Location': 'Kirim lokasi bisnis kepada pelanggan.',
+            'Multiple Location': 'Tampilkan beberapa pilihan lokasi.',
+            'WA Flow': 'Jalankan WhatsApp Flow terstruktur.',
+            'Request Location': 'Minta pelanggan mengirim lokasinya.',
+            'Call To Agent': 'Hubungkan pelanggan ke agent melalui panggilan.',
+            'End': 'Akhiri alur percakapan pada node ini.',
             'AI Response': 'Gunakan AI untuk membalas sesuai konteks percakapan.',
             'Agent Response': 'Teruskan percakapan ke agent.',
             'Reuse Bot Response': 'Gunakan ulang response bot yang sudah tersedia.',
@@ -4536,26 +5282,53 @@
     }
 
     function createNode(type) {
-        const isTextMessage = type === 'Text Messages';
-        const isButtonMessage = type === 'Button';
-        const isListMessage = type === 'List';
-        const options = isButtonMessage
-            ? ['Lanjut', 'Nanti Saja']
-            : (isListMessage ? ['Pilihan 1', 'Pilihan 2', 'Pilihan 3'] : []);
+        const preset = getToolPreset(type);
+        const options = [...(preset?.options || [])];
+        const position = getNextNodePosition();
+        const nodeType = preset?.type || type.toLowerCase().replaceAll(' ', '_');
 
         return {
             id: `bot-${Date.now().toString(36)}-${flowNodes.length + 1}`,
-            type: type.toLowerCase().replaceAll(' ', '_'),
+            type: nodeType,
             title: type,
             message: defaultMessage(type),
-            headerType: (isTextMessage || isButtonMessage || isListMessage) ? 'text' : '',
-            headerText: (isTextMessage || isButtonMessage || isListMessage) ? 'Promo Spesial' : '',
+            headerType: preset?.headerType || '',
+            headerText: preset?.headerText || '',
             headerImage: '',
-            body: (isTextMessage || isButtonMessage || isListMessage) ? 'Tulis body pesan untuk pelanggan Anda di sini.' : '',
-            fallback: (isTextMessage || isButtonMessage || isListMessage) ? 'Maaf, pesan belum bisa diproses. Silakan coba beberapa saat lagi.' : '',
+            body: preset?.body || '',
+            fallback: preset?.fallback || '',
+            emailTo: preset?.emailTo || '',
+            emailCc: preset?.emailCc || '',
+            emailSubject: preset?.emailSubject || '',
+            agentId: preset?.agentId || '',
+            mediaType: preset?.mediaType || '',
+            mediaSource: preset?.mediaSource || '',
+            locationName: preset?.locationName || '',
+            templateId: nodeType === 'send_template' ? (TEMPLATE_LIBRARY[0]?.id || '') : '',
             options,
-            branchFlows: options.map((label) => createBranchFlow(label)),
+            branchFlows: options.map((label) => createBranchFlow(label, nodeType)),
             childNodes: [],
+            x: position.x,
+            y: position.y,
+        };
+    }
+
+    function getNextNodePosition() {
+        const lastNode = flowNodes[flowNodes.length - 1];
+        if (lastNode) {
+            const nextX = (Number(lastNode.x) || 0) + 280;
+            const nextY = (Number(lastNode.y) || 0) + ((flowNodes.length % 2) * 36);
+
+            return {
+                x: Math.max(24, nextX),
+                y: Math.max(24, nextY),
+            };
+        }
+
+        const index = flowNodes.length;
+        return {
+            x: 24 + ((index % 3) * 300),
+            y: 24 + (Math.floor(index / 3) * 240),
         };
     }
 
@@ -4574,6 +5347,28 @@
     }
 
     function getNodeMessage(node) {
+        if (node?.type === 'send_template') {
+            return getTemplateById(node.templateId || '')?.content || 'Pilih template WhatsApp yang sudah di-approve Meta.';
+        }
+
+        if (node?.type === 'send_email') {
+            return `To: ${node.emailTo || '-'} | Subject: ${node.emailSubject || '-'}`;
+        }
+
+        if (node?.type === 'chat_to_agent') {
+            const agent = getAgentById(node.agentId || '');
+            return `Agent: ${agent?.name || '-'} | Team: ${agent?.team || '-'}`;
+        }
+
+        if (node?.type === 'call_to_agent') {
+            const agent = getAgentById(node.agentId || '');
+            return `Call Agent: ${agent?.name || '-'} | Team: ${agent?.team || '-'}`;
+        }
+
+        if (node?.type === 'send_location') {
+            return `Lokasi: ${node.locationName || 'Belum dipilih'}`;
+        }
+
         if (isMessageDrawerNode(node)) {
             return node.body || 'Tulis isi body pesan.';
         }
@@ -4615,13 +5410,86 @@
     }
 
     function getButtonsPreview(node) {
-        if (!['button', 'list'].includes(node.type) || !node.options?.length) {
+        const optionConfig = getOptionNodeConfig(node.type);
+        if (!optionConfig || !node.options?.length) {
+            return '';
+        }
+
+        const optionTypeLabel = optionConfig.label.replace(/\s+Options?$/i, '').replace(/\s+Paths?$/i, '') || 'Option';
+        const isReadOnlyOptions = node.type === 'send_survey';
+
+        return `
+            <div class="node-buttons">
+                ${node.options.map((label, index) => `
+                    <div class="node-option-item">
+                        <span class="node-button-pill">${escapeHtml(label)}</span>
+                        ${isReadOnlyOptions ? '' : `
+                            <button
+                                class="link-handle"
+                                type="button"
+                                data-link-start="${node.id}"
+                                data-link-key="${node.id}::${index}"
+                                data-link-index="${index}"
+                                aria-label="Hubungkan ${escapeHtml(label || `${optionTypeLabel} ${index + 1}`)} dari ${escapeHtml(node.title)}"
+                            >→</button>
+                        `}
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    function getNodeOutputHandles(node) {
+        if (!node) return [];
+
+        if (['end', 'send_survey'].includes(node.type)) {
+            return [];
+        }
+
+        if (getOptionNodeConfig(node.type)) {
+            const optionHandles = (node.options || []).map((label, index) => ({
+                key: `${node.id}::${index}`,
+                label: label || `Option ${index + 1}`,
+            }));
+
+            if (optionHandles.length) {
+                return optionHandles;
+            }
+
+            return [{
+                key: node.id,
+                label: 'Default Path',
+            }];
+        }
+
+        return [{
+            key: node.id,
+            label: node.title || 'Node',
+        }];
+    }
+
+    function renderNodeHandles(node) {
+        if (getOptionNodeConfig(node?.type) && (node.options || []).length) {
+            return '';
+        }
+
+        const handles = getNodeOutputHandles(node);
+        if (!handles.length) {
             return '';
         }
 
         return `
-            <div class="node-buttons">
-                ${node.options.map((label) => `<span class="node-button-pill">${escapeHtml(label)}</span>`).join('')}
+            <div class="node-output-handles">
+                ${handles.map((handle, index) => `
+                    <button
+                        class="link-handle"
+                        type="button"
+                        data-link-start="${node.id}"
+                        data-link-key="${handle.key}"
+                        data-link-index="${index}"
+                        aria-label="Hubungkan ${escapeHtml(handle.label)} dari ${escapeHtml(node.title)}"
+                    >→</button>
+                `).join('')}
             </div>
         `;
     }
@@ -4629,7 +5497,7 @@
     function getAddNodeMarkup({ isBranch = false, targetId = '', targetKind = 'root' } = {}) {
         return `
             <div class="add-node ${isBranch ? 'branch-add' : ''}" data-add-kind="${targetKind}" data-add-target="${escapeHtml(targetId)}">
-                <button class="add-response" type="button" data-action="open-menu"><span class="plus">+</span> Tambah Flow Baru</button>
+                <button class="add-response" type="button" data-action="open-menu"><span class="plus">+</span> Add Node</button>
                 <div class="menu">
                     ${menuOptionsMarkup}
                 </div>
@@ -4638,20 +5506,25 @@
     }
 
     function getButtonBranchesPreview(node, branchFlowNumber) {
-        if (node.type !== 'button' || !node.branchFlows?.length) {
+        if (!['button', 'branch'].includes(node.type) || !node.branchFlows?.length) {
             return '';
         }
+
+        const branchItemLabel = node.type === 'branch' ? 'Path' : 'Button';
+        const branchCopyFallback = node.type === 'branch'
+            ? 'Lanjutan flow untuk cabang'
+            : 'Text lanjutan untuk tombol';
 
         return `
             <div class="button-branches ${node.branchFlows.length > 1 ? 'two' : ''}">
                 ${node.branchFlows.map((branch) => `
                     <div class="button-branch">
-                        <span class="button-branch-label">${escapeHtml(branch.label || 'Button')}</span>
+                        <span class="button-branch-label">${escapeHtml(branch.label || branchItemLabel)}</span>
                         <div class="button-branch-node" data-edit-id="${branch.id}">
-                            <span class="node-pill">Flow ${branchFlowNumber}</span>
+                            <span class="node-pill">Branch ${branchFlowNumber}</span>
                             <div class="button-branch-title">${escapeHtml(branch.title || 'Text Message')}</div>
                             <div class="button-branch-copy">
-                                ${escapeHtml(branch.body || `Text lanjutan untuk tombol "${branch.label || 'Button'}"`)}
+                                ${escapeHtml(branch.body || `${branchCopyFallback} "${branch.label || branchItemLabel}"`)}
                             </div>
                         </div>
                         ${renderChildTree(branch.childNodes || [], branchFlowNumber + 1)}
@@ -4663,11 +5536,27 @@
     }
 
     function renderNodeCard(node, flowNumber) {
+        const canOpenEditor = isMessageDrawerNode(node);
+
+        if (node.type === 'end') {
+            return `
+                <div class="canvas-node ${activeDrawerTargetId === node.id ? 'active' : ''}" data-node-id="${node.id}" data-node-type="end" style="left:${Number(node.x) || 0}px; top:${Number(node.y) || 0}px; width:132px;">
+                    <div class="end-node-card">
+                        <span class="link-target" aria-hidden="true"></span>
+                        <span>End</span>
+                        <button class="remove-node" type="button" title="Hapus flow" data-remove-node="${node.id}">x</button>
+                    </div>
+                </div>
+            `;
+        }
+
         return `
+            <div class="canvas-node ${activeDrawerTargetId === node.id ? 'active' : ''}" data-node-id="${node.id}" data-node-type="${escapeHtml(node.type || '')}" style="left:${Number(node.x) || 0}px; top:${Number(node.y) || 0}px;">
             <div class="bot-node" data-edit-id="${node.id}">
+                <span class="link-target" aria-hidden="true"></span>
                 <header>
                     <div class="bot-node-title">
-                        <span class="node-pill">Flow ${flowNumber}</span>
+                        <span class="node-pill">Node ${flowNumber}</span>
                         <h2>${escapeHtml(node.title)}</h2>
                     </div>
                     <button class="remove-node" type="button" title="Hapus flow" data-remove-node="${node.id}">x</button>
@@ -4677,7 +5566,14 @@
                     <div class="node-message">${escapeHtml(getNodeMessage(node))}</div>
                     ${getButtonsPreview(node)}
                     ${getFallbackPreview(node)}
+                    ${canOpenEditor ? `
+                        <div class="node-actions">
+                            <button class="node-view-button" type="button" data-open-editor="${node.id}">Lihat</button>
+                        </div>
+                    ` : ''}
                 </div>
+                ${renderNodeHandles(node)}
+            </div>
             </div>
         `;
     }
@@ -4712,7 +5608,8 @@
     }
 
     function renderOptionsEditor(options = [], type = 'button') {
-        const placeholder = type === 'list' ? 'Label pilihan list' : 'Label tombol';
+        const optionConfig = getOptionNodeConfig(type) || getOptionNodeConfig('button');
+        const placeholder = optionConfig.placeholder;
         optionsEditorList.innerHTML = options.map((label, index) => `
             <div class="option-item">
                 <input class="drawer-input" data-option-input="${index}" maxlength="40" placeholder="${placeholder}" value="${escapeHtml(label)}">
@@ -4720,11 +5617,51 @@
             </div>
         `).join('');
 
-        const limit = type === 'list' ? 5 : 2;
+        const limit = optionConfig.limit;
         addOptionButton.disabled = options.length >= limit;
         addOptionButton.style.opacity = options.length >= limit ? '.5' : '1';
-        optionsEditorLabel.textContent = type === 'list' ? 'List Options' : 'Buttons';
-        addOptionButton.textContent = type === 'list' ? '+ List Option' : '+ Button';
+        optionsEditorLabel.textContent = optionConfig.label;
+        addOptionButton.textContent = optionConfig.addLabel;
+    }
+
+    function renderTemplateSelector(selectedTemplateId = '') {
+        const activeTemplate = getTemplateById(selectedTemplateId);
+        templateSelector.innerHTML = TEMPLATE_LIBRARY.map((template) => `
+            <option value="${escapeHtml(template.id)}" ${template.id === activeTemplate?.id ? 'selected' : ''}>
+                ${escapeHtml(template.name)} - ${escapeHtml(template.category)}
+            </option>
+        `).join('');
+
+        templateSelectorHelp.textContent = activeTemplate
+            ? `${activeTemplate.category}: ${activeTemplate.content}`
+            : 'Pilih template yang sudah di-approve Meta.';
+    }
+
+    function renderAgentSelector(selectedAgentId = '') {
+        const activeAgent = getAgentById(selectedAgentId);
+        agentSelector.innerHTML = AGENT_LIBRARY.map((agent) => `
+            <option value="${escapeHtml(agent.id)}" ${agent.id === activeAgent?.id ? 'selected' : ''}>
+                ${escapeHtml(agent.name)} - ${escapeHtml(agent.team)}
+            </option>
+        `).join('');
+
+        agentSelectorHelp.textContent = activeAgent
+            ? `${activeAgent.team}: ${activeAgent.note}`
+            : 'Pilih agent tujuan untuk menerima percakapan.';
+    }
+
+    function renderMediaTypeSelector(selectedMediaType = '') {
+        const activeMediaType = getMediaTypeById(selectedMediaType);
+        mediaTypeSelector.innerHTML = MEDIA_TYPE_LIBRARY.map((mediaType) => `
+            <option value="${escapeHtml(mediaType.id)}" ${mediaType.id === activeMediaType?.id ? 'selected' : ''}>
+                ${escapeHtml(mediaType.name)}
+            </option>
+        `).join('');
+
+        mediaSourceInput.placeholder = activeMediaType?.placeholder || 'Pilih tipe media terlebih dahulu';
+        mediaSourceHelp.textContent = activeMediaType?.id
+            ? `Masukkan URL atau referensi file untuk media tipe ${activeMediaType.name}.`
+            : 'Pilih tipe media terlebih dahulu';
     }
 
     function renderMessagePreview(entity, values = {}) {
@@ -4740,14 +5677,80 @@
         const headerType = values.headerType ?? entity.headerType ?? 'text';
         const headerText = values.headerText ?? entity.headerText ?? '';
         const headerImage = values.headerImage ?? entity.headerImage ?? '';
-        const body = values.body ?? entity.body ?? getNodeMessage(entity);
+        const emailTo = values.emailTo ?? entity.emailTo ?? '';
+        const emailCc = values.emailCc ?? entity.emailCc ?? '';
+        const emailSubject = values.emailSubject ?? entity.emailSubject ?? '';
+        const mediaType = values.mediaType ?? entity.mediaType ?? '';
+        const mediaSource = values.mediaSource ?? entity.mediaSource ?? '';
+        const locationName = values.locationName ?? entity.locationName ?? '';
+        const activeAgent = ['chat_to_agent', 'call_to_agent'].includes(entity.type)
+            ? getAgentById(values.agentId ?? entity.agentId ?? '')
+            : null;
+        const activeTemplate = entity.type === 'send_template'
+            ? getTemplateById(values.templateId ?? entity.templateId ?? '')
+            : null;
+        const activeMediaType = entity.type === 'send_media'
+            ? getMediaTypeById(mediaType)
+            : null;
+        const body = entity.type === 'send_template'
+            ? (activeTemplate?.content || 'Pilih template untuk melihat preview.')
+            : (values.body ?? entity.body ?? getNodeMessage(entity));
         const options = values.options ?? entity.options ?? [];
         const headerMarkup = headerType === 'image' && headerImage
             ? `<div class="wa-message-header"><img src="${escapeHtml(headerImage)}" alt="Header image"></div>`
             : (headerType === 'text' && headerText ? `<div class="wa-message-header">${escapeHtml(headerText)}</div>` : '');
-        const optionsMarkup = ['button', 'list'].includes(entity.type) && options.length
+        const optionsMarkup = getOptionNodeConfig(entity.type) && options.length
             ? `<div class="wa-options">${options.map((label) => `<div class="wa-option">${escapeHtml(label)}</div>`).join('')}</div>`
             : '';
+
+        if (entity.type === 'send_email') {
+            flowMessagePreview.innerHTML = `
+                <div class="wa-message">
+                    <div><strong>To:</strong> ${escapeHtml(emailTo || '-')}</div>
+                    <div><strong>CC:</strong> ${escapeHtml(emailCc || '-')}</div>
+                    <div><strong>Subject:</strong> ${escapeHtml(emailSubject || '-')}</div>
+                    <div style="margin-top:10px;">${escapeHtml(body || 'Tulis body email untuk melihat preview.')}</div>
+                    <span class="wa-message-time">Email</span>
+                </div>
+            `;
+            return;
+        }
+
+        if (['chat_to_agent', 'call_to_agent'].includes(entity.type)) {
+            flowMessagePreview.innerHTML = `
+                <div class="wa-message">
+                    <div><strong>Mode:</strong> ${escapeHtml(entity.type === 'call_to_agent' ? 'Call To Agent' : 'Chat to Agent')}</div>
+                    <div><strong>Agent:</strong> ${escapeHtml(activeAgent?.name || '-')}</div>
+                    <div><strong>Team:</strong> ${escapeHtml(activeAgent?.team || '-')}</div>
+                    <div style="margin-top:10px;">${escapeHtml(activeAgent?.note || body || 'Pilih agent untuk melihat preview.')}</div>
+                    <span class="wa-message-time">Agent</span>
+                </div>
+            `;
+            return;
+        }
+
+        if (entity.type === 'send_media') {
+            flowMessagePreview.innerHTML = `
+                <div class="wa-message">
+                    <div><strong>Tipe Media:</strong> ${escapeHtml(activeMediaType?.name || '-')}</div>
+                    <div><strong>Source:</strong> ${escapeHtml(mediaSource || 'Belum dipilih')}</div>
+                    <div style="margin-top:10px;">${escapeHtml(values.body ?? entity.body ?? 'Tambahkan deskripsi media.')}</div>
+                    <span class="wa-message-time">Media</span>
+                </div>
+            `;
+            return;
+        }
+
+        if (entity.type === 'send_location') {
+            flowMessagePreview.innerHTML = `
+                <div class="wa-message">
+                    <div><strong>Nama Lokasi:</strong> ${escapeHtml(locationName || 'Belum dipilih')}</div>
+                    <div style="margin-top:10px;">Klik "Cari Lokasi" untuk memilih lokasi yang akan dikirim ke pelanggan.</div>
+                    <span class="wa-message-time">Location</span>
+                </div>
+            `;
+            return;
+        }
 
         flowMessagePreview.innerHTML = `
             <div class="wa-message">
@@ -4772,8 +5775,16 @@
             headerText: drawerHeaderText.value.trim(),
             headerImage: drawerHeaderImage.value.trim(),
             body: drawerBodyText.value.trim(),
-            options: ['button', 'list'].includes(entity.type)
-                ? getDrawerOptionValues(entity.type === 'list' ? 5 : 2)
+            emailTo: emailToInput.value.trim(),
+            emailCc: emailCcInput.value.trim(),
+            emailSubject: emailSubjectInput.value.trim(),
+            agentId: agentSelector.value,
+            mediaType: mediaTypeSelector.value,
+            mediaSource: mediaSourceInput.value.trim(),
+            locationName: locationNameInput.value.trim(),
+            templateId: templateSelector.value,
+            options: getOptionNodeConfig(entity.type)
+                ? getDrawerOptionValues(getOptionNodeConfig(entity.type).limit)
                 : [],
         });
     }
@@ -4790,20 +5801,52 @@
         if (!entity) return;
 
         activeDrawerTargetId = entityId;
+        setFlowEditorPanelOpen(true);
         flowEditorPanel.classList.add('has-selection');
         messageDrawerTitle.textContent =
-            entity.type === 'button'
-                ? 'Button Message'
-                : entity.type === 'list'
-                    ? 'List Message'
-                    : (entity.label ? `Flow ${entity.label}` : 'Text Message');
+            entity.label ? `Flow ${entity.label}` : (entity.title || 'Flow Node');
         drawerHeaderText.value = entity.headerText || '';
         drawerHeaderImage.value = entity.headerImage || '';
         drawerBodyText.value = entity.body || '';
         drawerFallbackText.value = entity.fallback || '';
+        emailToInput.value = entity.emailTo || '';
+        emailCcInput.value = entity.emailCc || '';
+        emailSubjectInput.value = entity.emailSubject || '';
+        renderAgentSelector(entity.agentId || '');
+        renderMediaTypeSelector(entity.mediaType || '');
+        mediaSourceInput.value = entity.mediaSource || '';
+        locationNameInput.value = entity.locationName || '';
+        renderTemplateSelector(entity.templateId || '');
         setDrawerHeaderType(entity.headerType || 'text');
-        optionsEditorField.classList.toggle('hidden', !['button', 'list'].includes(entity.type));
-        renderOptionsEditor(entity.options || [], entity.type);
+        const isTemplateNode = entity.type === 'send_template';
+        const isEmailNode = entity.type === 'send_email';
+        const isAgentNode = ['chat_to_agent', 'call_to_agent'].includes(entity.type);
+        const isMediaNode = entity.type === 'send_media';
+        const isLocationNode = entity.type === 'send_location';
+        const isRequestLocationNode = entity.type === 'request_location';
+        headerSection?.classList.toggle('hidden', isTemplateNode || isRequestLocationNode);
+        headerTextField.classList.toggle('hidden', isTemplateNode || isEmailNode || isAgentNode || isMediaNode || isLocationNode || isRequestLocationNode || (entity.headerType || 'text') !== 'text');
+        headerImageField.classList.toggle('hidden', isTemplateNode || isEmailNode || isAgentNode || isMediaNode || isLocationNode || isRequestLocationNode || (entity.headerType || 'text') !== 'image');
+        drawerBodyText.closest('.drawer-field')?.classList.toggle('hidden', isTemplateNode || isAgentNode || isLocationNode);
+        drawerBodyText.previousElementSibling.textContent = isEmailNode ? 'Email Body' : (isMediaNode ? 'Deskripsi Media' : (isRequestLocationNode ? 'Isi Pesan' : 'Body'));
+        drawerBodyText.placeholder = isEmailNode ? 'Tulis isi email di sini' : (isMediaNode ? 'Tulis deskripsi media di sini' : (isRequestLocationNode ? 'Isi Pesan' : 'Tulis isi pesan di sini'));
+        drawerFallbackText.closest('.drawer-field')?.classList.toggle('hidden', isTemplateNode || isEmailNode || isAgentNode || isMediaNode || isLocationNode || isRequestLocationNode);
+        emailToField.classList.toggle('hidden', !isEmailNode);
+        emailCcField.classList.toggle('hidden', !isEmailNode);
+        emailSubjectField.classList.toggle('hidden', !isEmailNode);
+        agentSelectorField.classList.toggle('hidden', !isAgentNode);
+        mediaTypeField.classList.toggle('hidden', !isMediaNode);
+        mediaSourceField.classList.toggle('hidden', !isMediaNode);
+        locationNameField.classList.toggle('hidden', !isLocationNode);
+        locationSearchField.classList.toggle('hidden', !isLocationNode);
+        requestLocationInfoField.classList.toggle('hidden', !isRequestLocationNode);
+        templateSelectorField.classList.toggle('hidden', !isTemplateNode);
+        optionsEditorField.classList.toggle('hidden', !getOptionNodeConfig(entity.type));
+        if (getOptionNodeConfig(entity.type)) {
+            renderOptionsEditor(entity.options || [], entity.type);
+        } else {
+            optionsEditorList.innerHTML = '';
+        }
         renderMessagePreview(entity);
         drawerBackdrop.classList.remove('open');
         textMessageDrawer.classList.remove('open');
@@ -4812,6 +5855,7 @@
 
     function closeTextMessageDrawer() {
         activeDrawerTargetId = null;
+        setFlowEditorPanelOpen(false);
         flowEditorPanel.classList.remove('has-selection');
         renderMessagePreview(null);
         drawerBackdrop.classList.remove('open');
@@ -4829,32 +5873,160 @@
         entity.headerType = activeHeaderType;
         entity.headerText = drawerHeaderText.value.trim();
         entity.headerImage = drawerHeaderImage.value.trim();
-        entity.body = drawerBodyText.value.trim();
-        entity.fallback = drawerFallbackText.value.trim();
-        if (['button', 'list'].includes(entity.type)) {
-            entity.options = getDrawerOptionValues(entity.type === 'list' ? 5 : 2);
-            syncButtonBranches(entity);
+        entity.body = entity.type === 'send_template' ? '' : drawerBodyText.value.trim();
+        entity.fallback = entity.type === 'send_template' ? '' : drawerFallbackText.value.trim();
+        entity.emailTo = entity.type === 'send_email' ? emailToInput.value.trim() : (entity.emailTo || '');
+        entity.emailCc = entity.type === 'send_email' ? emailCcInput.value.trim() : (entity.emailCc || '');
+        entity.emailSubject = entity.type === 'send_email' ? emailSubjectInput.value.trim() : (entity.emailSubject || '');
+        entity.agentId = ['chat_to_agent', 'call_to_agent'].includes(entity.type) ? agentSelector.value : (entity.agentId || '');
+        entity.mediaType = entity.type === 'send_media' ? mediaTypeSelector.value : (entity.mediaType || '');
+        entity.mediaSource = entity.type === 'send_media' ? mediaSourceInput.value.trim() : (entity.mediaSource || '');
+        entity.locationName = entity.type === 'send_location' ? locationNameInput.value.trim() : (entity.locationName || '');
+        if (entity.type === 'send_template') {
+            const activeTemplate = getTemplateById(templateSelector.value);
+            entity.templateId = activeTemplate?.id || '';
+            entity.headerType = 'text';
+            entity.headerText = activeTemplate?.name || 'Template Resmi';
         }
-        entity.message = entity.body || defaultMessage(entity.title);
+        if (entity.type === 'send_email') {
+            entity.headerType = 'text';
+            entity.headerText = entity.emailSubject || 'Email Notification';
+            entity.fallback = '';
+        }
+        if (['chat_to_agent', 'call_to_agent'].includes(entity.type)) {
+            const activeAgent = getAgentById(entity.agentId);
+            entity.headerType = 'text';
+            entity.headerText = activeAgent?.name || (entity.type === 'call_to_agent' ? 'Hubungi Agent' : 'Alihkan ke Agent');
+            entity.body = activeAgent?.note || '';
+            entity.fallback = '';
+        }
+        if (entity.type === 'send_media') {
+            const activeMediaType = getMediaTypeById(entity.mediaType);
+            entity.headerType = 'text';
+            entity.headerText = activeMediaType?.name || 'Media';
+            entity.fallback = '';
+        }
+        if (entity.type === 'send_location') {
+            entity.headerType = 'text';
+            entity.headerText = entity.locationName || 'Lokasi Kami';
+            entity.body = '';
+            entity.fallback = '';
+        }
+        if (getOptionNodeConfig(entity.type)) {
+            entity.options = getDrawerOptionValues(getOptionNodeConfig(entity.type).limit);
+            if (['button', 'list', 'branch'].includes(entity.type)) {
+                syncButtonBranches(entity);
+            }
+            pruneConnectionsForNode(entity);
+        }
+        entity.message = entity.type === 'send_template'
+            ? (getTemplateById(entity.templateId)?.content || defaultMessage(entity.title))
+            : (entity.body || defaultMessage(entity.title));
 
         renderFlowNodes();
         openFlowEditor(entity.id);
     }
 
     function renderFlowNodes() {
-        const lastNode = flowNodes[flowNodes.length - 1];
-        const shouldShowGlobalAdd = !(lastNode?.type === 'button' && lastNode.branchFlows?.length);
+        botNodes.innerHTML = flowNodes.map((node, index) => renderNodeCard(node, index + 1)).join('');
+        requestAnimationFrame(() => renderFlowConnections());
+    }
 
-        botNodes.innerHTML = flowNodes.map((node, index) => `
-            ${renderNodeCard(node, index + 1)}
-            ${getButtonBranchesPreview(node, index + 3)}
-            <div class="line"></div>
-        `).join('') + (shouldShowGlobalAdd ? getAddNodeMarkup({ isBranch: false, targetKind: 'root' }) : '');
+    function getLinkHandlePosition(sourceKey) {
+        const handle = sourceKey === 'start'
+            ? document.querySelector('[data-link-start="start"]')
+            : document.querySelector(`.link-handle[data-link-key="${sourceKey}"]`);
+        if (!handle || !builderStage) return null;
+
+        const handleRect = handle.getBoundingClientRect();
+        const stageRect = builderStage.getBoundingClientRect();
+        return {
+            x: ((handleRect.left + handleRect.width / 2) - stageRect.left) / zoomLevel,
+            y: ((handleRect.top + handleRect.height / 2) - stageRect.top) / zoomLevel,
+        };
+    }
+
+    function getNodeInputPosition(targetId) {
+        const target = document.querySelector(`.canvas-node[data-node-id="${targetId}"] .link-target`)
+            || document.querySelector(`.canvas-node[data-node-id="${targetId}"] .bot-node`);
+        if (!target || !builderStage) return null;
+
+        const nodeRect = target.getBoundingClientRect();
+        const stageRect = builderStage.getBoundingClientRect();
+        return {
+            x: ((nodeRect.left + nodeRect.width / 2) - stageRect.left) / zoomLevel,
+            y: ((nodeRect.top + (nodeRect.height / 2)) - stageRect.top) / zoomLevel,
+        };
+    }
+
+    function buildConnectionPath(from, to) {
+        const delta = Math.max(60, Math.abs(to.x - from.x) * 0.45);
+        return `M ${from.x} ${from.y} C ${from.x + delta} ${from.y}, ${to.x - delta} ${to.y}, ${to.x} ${to.y}`;
+    }
+
+    function renderFlowConnections(previewPoint = null) {
+        if (!flowLinks || !builderStage) return;
+
+        const stageWidth = builderStage.scrollWidth;
+        const stageHeight = builderStage.scrollHeight;
+        flowLinks.setAttribute('viewBox', `0 0 ${stageWidth} ${stageHeight}`);
+        flowLinks.setAttribute('width', String(stageWidth));
+        flowLinks.setAttribute('height', String(stageHeight));
+
+        const connectionMarkup = flowConnections.map((connection) => {
+            const from = getLinkHandlePosition(connection.fromKey || connection.from);
+            const to = getNodeInputPosition(connection.to);
+            if (!from || !to) return '';
+
+            return `<path d="${buildConnectionPath(from, to)}" fill="none" stroke="#3d6fd6" stroke-width="2.5" stroke-linecap="round" marker-end="url(#flowArrowHead)"></path>`;
+        }).join('');
+
+        const previewMarkup = activeLinkDrag && previewPoint
+            ? (() => {
+                const from = getLinkHandlePosition(activeLinkDrag.fromKey || activeLinkDrag.from);
+                if (!from) return '';
+                return `<path d="${buildConnectionPath(from, previewPoint)}" fill="none" stroke="#7da6ea" stroke-width="2.5" stroke-dasharray="6 6" stroke-linecap="round" marker-end="url(#flowArrowHead)"></path>`;
+            })()
+            : '';
+
+        flowLinks.innerHTML = `
+            <defs>
+                <marker id="flowArrowHead" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+                    <path d="M0,0 L8,4 L0,8 z" fill="#3d6fd6"></path>
+                </marker>
+            </defs>
+            ${connectionMarkup}
+            ${previewMarkup}
+        `;
+    }
+
+    function pruneConnectionsForNode(node) {
+        const validHandleKeys = new Set(getNodeOutputHandles(node).map((handle) => handle.key));
+        flowConnections = flowConnections.filter((connection) => {
+            if ((connection.fromNodeId || '') !== node.id) {
+                return true;
+            }
+
+            return validHandleKeys.has(connection.fromKey || connection.from);
+        });
+    }
+
+    function removeConnectionsForNode(nodeId) {
+        flowConnections = flowConnections.filter((connection) => {
+            const sourceNodeId = connection.fromNodeId || connection.from;
+            return sourceNodeId !== nodeId && connection.to !== nodeId;
+        });
+    }
+
+    function updateConnectionForSource(fromKey, fromNodeId, toId) {
+        flowConnections = flowConnections.filter((connection) => (connection.fromKey || connection.from) !== fromKey);
+        flowConnections.push({ fromKey, fromNodeId, to: toId });
+        renderFlowConnections();
     }
 
     function addFlowNode(type, target = { kind: 'root', id: '' }) {
         const node = createNode(type);
-        if (['button', 'list'].includes(node.type)) {
+        if (['button', 'list', 'branch'].includes(node.type)) {
             syncButtonBranches(node);
         }
 
@@ -4883,9 +6055,6 @@
             });
         });
 
-        if (isMessageDrawerNode(node)) {
-            requestAnimationFrame(() => openFlowEditor(node.id));
-        }
     }
 
     async function submitFlow(status) {
@@ -4897,7 +6066,6 @@
             status,
             nodes: [
                 { id: 'start', type: 'start', title: 'Start', message: '' },
-                { id: 'user-response', type: 'user_response', title: 'User Response', message: getKeywordText() },
                 ...flowNodes,
             ],
         };
@@ -5026,16 +6194,52 @@
         field.addEventListener('input', syncPanelPreviewFromInputs);
     });
 
+    [emailToInput, emailCcInput, emailSubjectInput].forEach((field) => {
+        field.addEventListener('input', syncPanelPreviewFromInputs);
+    });
+
+    [mediaSourceInput].forEach((field) => {
+        field.addEventListener('input', syncPanelPreviewFromInputs);
+    });
+
+    [locationNameInput].forEach((field) => {
+        field.addEventListener('input', syncPanelPreviewFromInputs);
+    });
+
+    templateSelector.addEventListener('change', () => {
+        renderTemplateSelector(templateSelector.value);
+        syncPanelPreviewFromInputs();
+    });
+
+    agentSelector.addEventListener('change', () => {
+        renderAgentSelector(agentSelector.value);
+        syncPanelPreviewFromInputs();
+    });
+
+    mediaTypeSelector.addEventListener('change', () => {
+        renderMediaTypeSelector(mediaTypeSelector.value);
+        syncPanelPreviewFromInputs();
+    });
+
+    locationSearchButton.addEventListener('click', () => {
+        locationSearchHelp.textContent = locationNameInput.value.trim()
+            ? `Lokasi "${locationNameInput.value.trim()}" siap dipilih.`
+            : 'Masukkan nama lokasi terlebih dahulu.';
+        syncPanelPreviewFromInputs();
+    });
+
     document.querySelectorAll('[data-drawer-close]').forEach((button) => {
         button.addEventListener('click', closeTextMessageDrawer);
     });
 
     drawerBackdrop.addEventListener('click', closeTextMessageDrawer);
+    flowEditorBackdrop.addEventListener('click', closeTextMessageDrawer);
     document.getElementById('saveTextMessage').addEventListener('click', saveTextMessageNode);
     addOptionButton.addEventListener('click', () => {
         const entity = activeDrawerTargetId ? findFlowEntityById(activeDrawerTargetId) : null;
         const type = entity?.type || 'button';
-        const limit = type === 'list' ? 5 : 2;
+        const optionConfig = getOptionNodeConfig(type) || getOptionNodeConfig('button');
+        const limit = optionConfig.limit;
         const options = getDrawerOptionValues(limit);
         if (options.length >= limit) return;
 
@@ -5052,10 +6256,19 @@
 
         const entity = activeDrawerTargetId ? findFlowEntityById(activeDrawerTargetId) : null;
         const type = entity?.type || 'button';
-        const limit = type === 'list' ? 5 : 2;
+        const optionConfig = getOptionNodeConfig(type) || getOptionNodeConfig('button');
+        const limit = optionConfig.limit;
         const options = getDrawerOptionValues(limit).filter((_, index) => index !== Number(removeButton.dataset.removeButton));
         renderOptionsEditor(options, type);
         syncPanelPreviewFromInputs();
+    });
+
+    flowToolList?.addEventListener('click', (event) => {
+        const tool = event.target.closest('.flow-tool[data-node]');
+        if (!tool) return;
+
+        event.preventDefault();
+        addFlowNode(tool.dataset.node || 'Send Text');
     });
 
     document.querySelectorAll('[data-zoom-action]').forEach((button) => {
@@ -5111,6 +6324,104 @@
     builderCanvas.addEventListener('pointercancel', stopPanning);
     builderCanvas.addEventListener('pointerleave', stopPanning);
 
+    builderStage.addEventListener('pointerdown', (event) => {
+        const handle = event.target.closest('.link-handle[data-link-start]');
+        if (!handle) return;
+
+        event.preventDefault();
+        event.stopPropagation();
+        activeLinkDrag = {
+            fromKey: handle.dataset.linkKey || handle.dataset.linkStart || '',
+            fromNodeId: handle.dataset.linkStart || '',
+            pointerId: event.pointerId,
+        };
+        builderStage.setPointerCapture(event.pointerId);
+    });
+
+    builderStage.addEventListener('pointermove', (event) => {
+        if (!activeLinkDrag || activeLinkDrag.pointerId !== event.pointerId) return;
+
+        const stageRect = builderStage.getBoundingClientRect();
+        renderFlowConnections({
+            x: (event.clientX - stageRect.left) / zoomLevel,
+            y: (event.clientY - stageRect.top) / zoomLevel,
+        });
+    });
+
+    function stopLinkDragging(event) {
+        if (!activeLinkDrag || activeLinkDrag.pointerId !== event.pointerId) return;
+
+        const dropTarget = document.elementFromPoint(event.clientX, event.clientY);
+        const targetPort = dropTarget?.closest('.link-target');
+        const fallbackNode = !targetPort
+            ? dropTarget?.closest('.canvas-node[data-node-id]')
+            : null;
+        const targetNode = targetPort?.closest('.canvas-node[data-node-id]') || fallbackNode;
+        const targetId = targetNode?.dataset.nodeId || '';
+
+        if (targetId && targetId !== activeLinkDrag.fromNodeId) {
+            updateConnectionForSource(activeLinkDrag.fromKey, activeLinkDrag.fromNodeId, targetId);
+        } else {
+            renderFlowConnections();
+        }
+
+        if (builderStage.hasPointerCapture(event.pointerId)) {
+            builderStage.releasePointerCapture(event.pointerId);
+        }
+        activeLinkDrag = null;
+    }
+
+    builderStage.addEventListener('pointerup', stopLinkDragging);
+    builderStage.addEventListener('pointercancel', stopLinkDragging);
+
+    botNodes.addEventListener('pointerdown', (event) => {
+        const nodeElement = event.target.closest('.canvas-node[data-node-id]');
+        if (!nodeElement) return;
+        if (event.target.closest('button, input, textarea, select, .menu, a, label')) return;
+
+        const entity = findFlowEntityById(nodeElement.dataset.nodeId);
+        if (!entity) return;
+
+        activeDragNodeId = entity.id;
+        dragPointerId = event.pointerId;
+        dragStartX = event.clientX;
+        dragStartY = event.clientY;
+        dragNodeOriginX = Number(entity.x) || 0;
+        dragNodeOriginY = Number(entity.y) || 0;
+        nodeElement.classList.add('dragging');
+        botNodes.setPointerCapture(event.pointerId);
+    });
+
+    botNodes.addEventListener('pointermove', (event) => {
+        if (!activeDragNodeId || dragPointerId !== event.pointerId) return;
+
+        const entity = findFlowEntityById(activeDragNodeId);
+        const nodeElement = botNodes.querySelector(`.canvas-node[data-node-id="${activeDragNodeId}"]`);
+        if (!entity || !nodeElement) return;
+
+        entity.x = Math.max(0, dragNodeOriginX + ((event.clientX - dragStartX) / zoomLevel));
+        entity.y = Math.max(0, dragNodeOriginY + ((event.clientY - dragStartY) / zoomLevel));
+        nodeElement.style.left = `${entity.x}px`;
+        nodeElement.style.top = `${entity.y}px`;
+        renderFlowConnections();
+    });
+
+    function stopNodeDragging(event) {
+        if (!activeDragNodeId || dragPointerId !== event.pointerId) return;
+
+        const nodeElement = botNodes.querySelector(`.canvas-node[data-node-id="${activeDragNodeId}"]`);
+        nodeElement?.classList.remove('dragging');
+        if (botNodes.hasPointerCapture(event.pointerId)) {
+            botNodes.releasePointerCapture(event.pointerId);
+        }
+        activeDragNodeId = null;
+        dragPointerId = null;
+        renderFlowNodes();
+    }
+
+    botNodes.addEventListener('pointerup', stopNodeDragging);
+    botNodes.addEventListener('pointercancel', stopNodeDragging);
+
     builderCanvas.addEventListener('wheel', (event) => {
         if (currentStep !== 0 || !isSetupComplete || !event.ctrlKey) return;
 
@@ -5161,10 +6472,20 @@
     botNodes.addEventListener('click', (event) => {
         const removeButton = event.target.closest('[data-remove-node]');
         if (removeButton) {
+            removeConnectionsForNode(removeButton.dataset.removeNode);
             flowNodes = flowNodes.filter((node) => node.id !== removeButton.dataset.removeNode);
             renderFlowNodes();
             if (activeDrawerTargetId === removeButton.dataset.removeNode || !findFlowEntityById(activeDrawerTargetId)) {
                 closeTextMessageDrawer();
+            }
+            return;
+        }
+
+        const openEditorButton = event.target.closest('[data-open-editor]');
+        if (openEditorButton) {
+            const entity = findFlowEntityById(openEditorButton.dataset.openEditor);
+            if (isMessageDrawerNode(entity)) {
+                openFlowEditor(entity.id);
             }
             return;
         }
