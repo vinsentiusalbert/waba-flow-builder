@@ -3904,25 +3904,12 @@
                             <div class="flow-tool-list">
                                 <button class="flow-tool" type="button" data-node="Send Text"><span class="flow-tool-icon">T</span><span>Send Text</span></button>
                                 <button class="flow-tool" type="button" data-node="Send Button"><span class="flow-tool-icon">B</span><span>Send Button</span></button>
-                                <button class="flow-tool" type="button" data-node="Send Template"><span class="flow-tool-icon">T</span><span>Send Template</span></button>
-                                <button class="flow-tool" type="button" data-node="Send Survey"><span class="flow-tool-icon">S</span><span>Send Survey</span></button>
                                 <button class="flow-tool" type="button" data-node="Send List"><span class="flow-tool-icon">L</span><span>Send List</span></button>
-                                <button class="flow-tool" type="button" data-node="Waiting Response"><span class="flow-tool-icon">W</span><span>Waiting Response</span></button>
-                                <button class="flow-tool" type="button" data-node="Validation"><span class="flow-tool-icon">V</span><span>Validation</span></button>
-                                <button class="flow-tool" type="button" data-node="Send Email"><span class="flow-tool-icon">E</span><span>Send Email</span></button>
-                                <button class="flow-tool" type="button" data-node="Branch"><span class="flow-tool-icon">B</span><span>Branch</span></button>
-                                <button class="flow-tool" type="button" data-node="HTTP Request"><span class="flow-tool-icon">H</span><span>HTTP Request</span></button>
                                 <button class="flow-tool" type="button" data-node="Send Media"><span class="flow-tool-icon">M</span><span>Send Media</span></button>
-                                <button class="flow-tool" type="button" data-node="Send Catalog"><span class="flow-tool-icon">C</span><span>Send Catalog</span></button>
                                 <button class="flow-tool" type="button" data-node="Chat to Agent"><span class="flow-tool-icon">C</span><span>Chat to Agent</span></button>
-                                <button class="flow-tool" type="button" data-node="Assign Variable"><span class="flow-tool-icon">A</span><span>Assign Variable</span></button>
-                                <button class="flow-tool" type="button" data-node="Receive Order"><span class="flow-tool-icon">R</span><span>Receive Order</span></button>
-                                <button class="flow-tool" type="button" data-node="Receive Product Inquiry"><span class="flow-tool-icon">P</span><span>Receive Product Inquiry</span></button>
                                 <button class="flow-tool" type="button" data-node="Send Location"><span class="flow-tool-icon">L</span><span>Send Location</span></button>
                                 <button class="flow-tool" type="button" data-node="Multiple Location"><span class="flow-tool-icon">M</span><span>Multiple Location</span></button>
-                                <button class="flow-tool" type="button" data-node="WA Flow"><span class="flow-tool-icon">W</span><span>WA Flow</span></button>
                                 <button class="flow-tool" type="button" data-node="Request Location"><span class="flow-tool-icon">R</span><span>Request Location</span></button>
-                                <button class="flow-tool" type="button" data-node="Call To Agent"><span class="flow-tool-icon">C</span><span>Call To Agent</span></button>
                                 <button class="flow-tool" type="button" data-node="End"><span class="flow-tool-icon">E</span><span>End</span></button>
                             </div>
                         </aside>
@@ -4599,25 +4586,12 @@
     const menuOptionsMarkup = `
         <button type="button" data-node="Send Text">Send Text</button>
         <button type="button" data-node="Send Button">Send Button</button>
-        <button type="button" data-node="Send Template">Send Template</button>
-        <button type="button" data-node="Send Survey">Send Survey</button>
         <button type="button" data-node="Send List">Send List</button>
-        <button type="button" data-node="Waiting Response">Waiting Response</button>
-        <button type="button" data-node="Validation">Validation</button>
-        <button type="button" data-node="Send Email">Send Email</button>
-        <button type="button" data-node="Branch">Branch</button>
-        <button type="button" data-node="HTTP Request">HTTP Request</button>
         <button type="button" data-node="Send Media">Send Media</button>
-        <button type="button" data-node="Send Catalog">Send Catalog</button>
         <button type="button" data-node="Chat to Agent">Chat to Agent</button>
-        <button type="button" data-node="Assign Variable">Assign Variable</button>
-        <button type="button" data-node="Receive Order">Receive Order</button>
-        <button type="button" data-node="Receive Product Inquiry">Receive Product Inquiry</button>
         <button type="button" data-node="Send Location">Send Location</button>
         <button type="button" data-node="Multiple Location">Multiple Location</button>
-        <button type="button" data-node="WA Flow">WA Flow</button>
         <button type="button" data-node="Request Location">Request Location</button>
-        <button type="button" data-node="Call To Agent">Call To Agent</button>
         <button type="button" data-node="End">End</button>
     `;
 
