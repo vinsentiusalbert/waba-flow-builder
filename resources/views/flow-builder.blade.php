@@ -3117,6 +3117,90 @@
             resize: vertical;
         }
 
+        .attachment-dropzone {
+            min-height: 132px;
+            display: grid;
+            place-items: center;
+            gap: 8px;
+            border: 2px dashed #cbd5e1;
+            border-radius: 14px;
+            background: #f8fafc;
+            color: #64748b;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color .2s ease, background .2s ease, color .2s ease;
+        }
+
+        .attachment-dropzone:hover,
+        .attachment-dropzone.dragging {
+            border-color: var(--brand);
+            background: #fff4f4;
+            color: var(--brand);
+        }
+
+        .attachment-dropzone.disabled {
+            opacity: .55;
+            cursor: not-allowed;
+        }
+
+        .attachment-dropzone input {
+            display: none;
+        }
+
+        .attachment-dropzone strong {
+            color: var(--navy);
+            font-size: 14px;
+        }
+
+        .attachment-dropzone span {
+            font-size: 12px;
+            line-height: 1.45;
+        }
+
+        .attachment-selected {
+            display: none;
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: #fff;
+            padding: 12px 14px;
+        }
+
+        .attachment-selected.active {
+            display: grid;
+        }
+
+        .attachment-file-info {
+            min-width: 0;
+            display: grid;
+            gap: 3px;
+        }
+
+        .attachment-file-name {
+            overflow: hidden;
+            color: var(--navy);
+            font-size: 13px;
+            font-weight: 800;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .attachment-file-meta {
+            color: #64748b;
+            font-size: 11px;
+        }
+
+        .attachment-remove {
+            border: 0;
+            background: transparent;
+            color: var(--brand);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
         .drawer-field.hidden {
             display: none;
         }
@@ -4367,8 +4451,19 @@
             </div>
 
             <div class="drawer-field hidden" id="headerImageField">
-                <label for="drawerHeaderImage">Header Image URL</label>
-                <input class="drawer-input" id="drawerHeaderImage" placeholder="https://example.com/image.jpg">
+                <label for="drawerHeaderImage">Header Image</label>
+                <label class="attachment-dropzone" id="headerImageDropzone" for="drawerHeaderImage">
+                    <input id="drawerHeaderImage" type="file" accept="image/*">
+                    <strong>Drop gambar di sini</strong>
+                    <span>atau klik untuk memilih attachment dari perangkat</span>
+                </label>
+                <div class="attachment-selected" id="headerImageSelected">
+                    <div class="attachment-file-info">
+                        <span class="attachment-file-name" id="headerImageFileName"></span>
+                        <span class="attachment-file-meta" id="headerImageFileMeta"></span>
+                    </div>
+                    <button class="attachment-remove" id="removeHeaderImage" type="button">Hapus</button>
+                </div>
             </div>
 
             <div class="drawer-field">
@@ -4408,8 +4503,19 @@
             </div>
 
             <div class="drawer-field hidden" id="mediaSourceField">
-                <label for="mediaSourceInput">Media URL / File</label>
-                <input class="drawer-input" id="mediaSourceInput" maxlength="1024" placeholder="Pilih tipe media terlebih dahulu">
+                <label for="mediaSourceInput">Attachment Media</label>
+                <label class="attachment-dropzone disabled" id="mediaSourceDropzone" for="mediaSourceInput">
+                    <input id="mediaSourceInput" type="file" disabled>
+                    <strong id="mediaDropzoneTitle">Pilih tipe media terlebih dahulu</strong>
+                    <span id="mediaDropzoneText">Setelah itu drop file di sini atau klik untuk memilih attachment</span>
+                </label>
+                <div class="attachment-selected" id="mediaSourceSelected">
+                    <div class="attachment-file-info">
+                        <span class="attachment-file-name" id="mediaSourceFileName"></span>
+                        <span class="attachment-file-meta" id="mediaSourceFileMeta"></span>
+                    </div>
+                    <button class="attachment-remove" id="removeMediaSource" type="button">Hapus</button>
+                </div>
                 <small id="mediaSourceHelp" style="display:block;margin-top:8px;color:#6b7280;font-size:12px;">Pilih tipe media terlebih dahulu</small>
             </div>
 
@@ -4525,6 +4631,11 @@
     const headerImageField = document.getElementById('headerImageField');
     const drawerHeaderText = document.getElementById('drawerHeaderText');
     const drawerHeaderImage = document.getElementById('drawerHeaderImage');
+    const headerImageDropzone = document.getElementById('headerImageDropzone');
+    const headerImageSelected = document.getElementById('headerImageSelected');
+    const headerImageFileName = document.getElementById('headerImageFileName');
+    const headerImageFileMeta = document.getElementById('headerImageFileMeta');
+    const removeHeaderImage = document.getElementById('removeHeaderImage');
     const drawerBodyText = document.getElementById('drawerBodyText');
     const drawerFallbackText = document.getElementById('drawerFallbackText');
     const emailToField = document.getElementById('emailToField');
@@ -4540,6 +4651,13 @@
     const mediaTypeSelector = document.getElementById('mediaTypeSelector');
     const mediaSourceField = document.getElementById('mediaSourceField');
     const mediaSourceInput = document.getElementById('mediaSourceInput');
+    const mediaSourceDropzone = document.getElementById('mediaSourceDropzone');
+    const mediaSourceSelected = document.getElementById('mediaSourceSelected');
+    const mediaSourceFileName = document.getElementById('mediaSourceFileName');
+    const mediaSourceFileMeta = document.getElementById('mediaSourceFileMeta');
+    const mediaDropzoneTitle = document.getElementById('mediaDropzoneTitle');
+    const mediaDropzoneText = document.getElementById('mediaDropzoneText');
+    const removeMediaSource = document.getElementById('removeMediaSource');
     const mediaSourceHelp = document.getElementById('mediaSourceHelp');
     const locationNameField = document.getElementById('locationNameField');
     const locationNameInput = document.getElementById('locationNameInput');
@@ -4583,6 +4701,8 @@
     let dragNodeOriginY = 0;
     let flowConnections = [];
     let activeLinkDrag = null;
+    let headerImageAttachment = { name: '', type: '', size: 0, dataUrl: '' };
+    let mediaAttachment = { name: '', type: '', size: 0, dataUrl: '' };
     const menuOptionsMarkup = `
         <button type="button" data-node="Send Text">Send Text</button>
         <button type="button" data-node="Send Button">Send Button</button>
@@ -4825,11 +4945,11 @@
     ];
 
     const MEDIA_TYPE_LIBRARY = [
-        { id: '', name: 'Pilih tipe media', placeholder: 'Pilih tipe media terlebih dahulu' },
-        { id: 'image', name: 'Image', placeholder: 'https://example.com/image.jpg' },
-        { id: 'video', name: 'Video', placeholder: 'https://example.com/video.mp4' },
-        { id: 'document', name: 'Document', placeholder: 'https://example.com/file.pdf' },
-        { id: 'audio', name: 'Audio', placeholder: 'https://example.com/audio.mp3' },
+        { id: '', name: 'Pilih tipe media', accept: '' },
+        { id: 'image', name: 'Image', accept: 'image/*' },
+        { id: 'video', name: 'Video', accept: 'video/*' },
+        { id: 'document', name: 'Document', accept: '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,application/pdf' },
+        { id: 'audio', name: 'Audio', accept: 'audio/*' },
     ];
 
     function getToolPreset(type) {
@@ -5624,6 +5744,123 @@
             : 'Pilih agent tujuan untuk menerima percakapan.';
     }
 
+    function formatFileSize(bytes) {
+        const size = Number(bytes) || 0;
+        if (!size) return '';
+        if (size < 1024) return `${size} B`;
+        if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)} KB`;
+        return `${(size / (1024 * 1024)).toFixed(1)} MB`;
+    }
+
+    function renderAttachmentSelection(kind) {
+        const isHeader = kind === 'header';
+        const attachment = isHeader ? headerImageAttachment : mediaAttachment;
+        const selected = isHeader ? headerImageSelected : mediaSourceSelected;
+        const fileName = isHeader ? headerImageFileName : mediaSourceFileName;
+        const fileMeta = isHeader ? headerImageFileMeta : mediaSourceFileMeta;
+
+        selected.classList.toggle('active', Boolean(attachment.name));
+        fileName.textContent = attachment.name || '';
+        fileMeta.textContent = [attachment.type, formatFileSize(attachment.size)].filter(Boolean).join(' - ');
+    }
+
+    function resetAttachment(kind) {
+        if (kind === 'header') {
+            headerImageAttachment = { name: '', type: '', size: 0, dataUrl: '' };
+            drawerHeaderImage.value = '';
+        } else {
+            mediaAttachment = { name: '', type: '', size: 0, dataUrl: '' };
+            mediaSourceInput.value = '';
+        }
+
+        renderAttachmentSelection(kind);
+        syncPanelPreviewFromInputs();
+    }
+
+    function isFileAccepted(file, accept) {
+        if (!accept) return false;
+
+        return accept.split(',').some((rule) => {
+            const normalizedRule = rule.trim().toLowerCase();
+            const fileType = (file.type || '').toLowerCase();
+            const fileName = file.name.toLowerCase();
+
+            if (normalizedRule.endsWith('/*')) {
+                return fileType.startsWith(normalizedRule.slice(0, -1));
+            }
+
+            if (normalizedRule.startsWith('.')) {
+                return fileName.endsWith(normalizedRule);
+            }
+
+            return fileType === normalizedRule;
+        });
+    }
+
+    function readAttachment(file, kind) {
+        if (!file) return;
+
+        const activeMediaType = getMediaTypeById(mediaTypeSelector.value);
+        const accept = kind === 'header' ? 'image/*' : activeMediaType?.accept;
+
+        if (!isFileAccepted(file, accept)) {
+            if (kind === 'header') {
+                drawerHeaderImage.value = '';
+            } else {
+                mediaSourceInput.value = '';
+            }
+            alert(kind === 'header'
+                ? 'File header harus berupa gambar.'
+                : `File tidak sesuai dengan tipe media ${activeMediaType?.name || 'yang dipilih'}.`);
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.addEventListener('load', () => {
+            const attachment = {
+                name: file.name,
+                type: file.type || 'application/octet-stream',
+                size: file.size,
+                dataUrl: String(reader.result || ''),
+            };
+
+            if (kind === 'header') {
+                headerImageAttachment = attachment;
+            } else {
+                mediaAttachment = attachment;
+            }
+
+            renderAttachmentSelection(kind);
+            syncPanelPreviewFromInputs();
+        });
+        reader.readAsDataURL(file);
+    }
+
+    function bindAttachmentDropzone(dropzone, input, kind) {
+        input.addEventListener('change', () => {
+            readAttachment(input.files?.[0], kind);
+        });
+
+        ['dragenter', 'dragover'].forEach((eventName) => {
+            dropzone.addEventListener(eventName, (event) => {
+                event.preventDefault();
+                if (!input.disabled) dropzone.classList.add('dragging');
+            });
+        });
+
+        ['dragleave', 'drop'].forEach((eventName) => {
+            dropzone.addEventListener(eventName, (event) => {
+                event.preventDefault();
+                dropzone.classList.remove('dragging');
+            });
+        });
+
+        dropzone.addEventListener('drop', (event) => {
+            if (input.disabled) return;
+            readAttachment(event.dataTransfer?.files?.[0], kind);
+        });
+    }
+
     function renderMediaTypeSelector(selectedMediaType = '') {
         const activeMediaType = getMediaTypeById(selectedMediaType);
         mediaTypeSelector.innerHTML = MEDIA_TYPE_LIBRARY.map((mediaType) => `
@@ -5632,9 +5869,18 @@
             </option>
         `).join('');
 
-        mediaSourceInput.placeholder = activeMediaType?.placeholder || 'Pilih tipe media terlebih dahulu';
+        const hasMediaType = Boolean(activeMediaType?.id);
+        mediaSourceInput.disabled = !hasMediaType;
+        mediaSourceInput.accept = activeMediaType?.accept || '';
+        mediaSourceDropzone.classList.toggle('disabled', !hasMediaType);
+        mediaDropzoneTitle.textContent = hasMediaType
+            ? `Drop file ${activeMediaType.name.toLowerCase()} di sini`
+            : 'Pilih tipe media terlebih dahulu';
+        mediaDropzoneText.textContent = hasMediaType
+            ? 'atau klik untuk memilih attachment dari perangkat'
+            : 'Setelah itu drop file di sini atau klik untuk memilih attachment';
         mediaSourceHelp.textContent = activeMediaType?.id
-            ? `Masukkan URL atau referensi file untuk media tipe ${activeMediaType.name}.`
+            ? `Format file dibatasi sesuai tipe ${activeMediaType.name}.`
             : 'Pilih tipe media terlebih dahulu';
     }
 
@@ -5747,14 +5993,14 @@
         renderMessagePreview(entity, {
             headerType,
             headerText: drawerHeaderText.value.trim(),
-            headerImage: drawerHeaderImage.value.trim(),
+            headerImage: headerImageAttachment.dataUrl,
             body: drawerBodyText.value.trim(),
             emailTo: emailToInput.value.trim(),
             emailCc: emailCcInput.value.trim(),
             emailSubject: emailSubjectInput.value.trim(),
             agentId: agentSelector.value,
             mediaType: mediaTypeSelector.value,
-            mediaSource: mediaSourceInput.value.trim(),
+            mediaSource: mediaAttachment.name,
             locationName: locationNameInput.value.trim(),
             templateId: templateSelector.value,
             options: getOptionNodeConfig(entity.type)
@@ -5780,7 +6026,14 @@
         messageDrawerTitle.textContent =
             entity.label ? `Flow ${entity.label}` : (entity.title || 'Flow Node');
         drawerHeaderText.value = entity.headerText || '';
-        drawerHeaderImage.value = entity.headerImage || '';
+        headerImageAttachment = {
+            name: entity.headerImageName || '',
+            type: entity.headerImageType || '',
+            size: entity.headerImageSize || 0,
+            dataUrl: entity.headerImage || '',
+        };
+        drawerHeaderImage.value = '';
+        renderAttachmentSelection('header');
         drawerBodyText.value = entity.body || '';
         drawerFallbackText.value = entity.fallback || '';
         emailToInput.value = entity.emailTo || '';
@@ -5788,7 +6041,14 @@
         emailSubjectInput.value = entity.emailSubject || '';
         renderAgentSelector(entity.agentId || '');
         renderMediaTypeSelector(entity.mediaType || '');
-        mediaSourceInput.value = entity.mediaSource || '';
+        mediaAttachment = {
+            name: entity.mediaSource || '',
+            type: entity.mediaMimeType || '',
+            size: entity.mediaSize || 0,
+            dataUrl: entity.mediaDataUrl || '',
+        };
+        mediaSourceInput.value = '';
+        renderAttachmentSelection('media');
         locationNameInput.value = entity.locationName || '';
         renderTemplateSelector(entity.templateId || '');
         setDrawerHeaderType(entity.headerType || 'text');
@@ -5846,7 +6106,10 @@
 
         entity.headerType = activeHeaderType;
         entity.headerText = drawerHeaderText.value.trim();
-        entity.headerImage = drawerHeaderImage.value.trim();
+        entity.headerImage = headerImageAttachment.dataUrl;
+        entity.headerImageName = headerImageAttachment.name;
+        entity.headerImageType = headerImageAttachment.type;
+        entity.headerImageSize = headerImageAttachment.size;
         entity.body = entity.type === 'send_template' ? '' : drawerBodyText.value.trim();
         entity.fallback = entity.type === 'send_template' ? '' : drawerFallbackText.value.trim();
         entity.emailTo = entity.type === 'send_email' ? emailToInput.value.trim() : (entity.emailTo || '');
@@ -5854,7 +6117,10 @@
         entity.emailSubject = entity.type === 'send_email' ? emailSubjectInput.value.trim() : (entity.emailSubject || '');
         entity.agentId = ['chat_to_agent', 'call_to_agent'].includes(entity.type) ? agentSelector.value : (entity.agentId || '');
         entity.mediaType = entity.type === 'send_media' ? mediaTypeSelector.value : (entity.mediaType || '');
-        entity.mediaSource = entity.type === 'send_media' ? mediaSourceInput.value.trim() : (entity.mediaSource || '');
+        entity.mediaSource = entity.type === 'send_media' ? mediaAttachment.name : (entity.mediaSource || '');
+        entity.mediaMimeType = entity.type === 'send_media' ? mediaAttachment.type : (entity.mediaMimeType || '');
+        entity.mediaSize = entity.type === 'send_media' ? mediaAttachment.size : (entity.mediaSize || 0);
+        entity.mediaDataUrl = entity.type === 'send_media' ? mediaAttachment.dataUrl : (entity.mediaDataUrl || '');
         entity.locationName = entity.type === 'send_location' ? locationNameInput.value.trim() : (entity.locationName || '');
         if (entity.type === 'send_template') {
             const activeTemplate = getTemplateById(templateSelector.value);
@@ -6164,7 +6430,7 @@
         button.addEventListener('click', () => setDrawerHeaderType(button.dataset.headerType));
     });
 
-    [drawerHeaderText, drawerHeaderImage, drawerBodyText, drawerFallbackText].forEach((field) => {
+    [drawerHeaderText, drawerBodyText, drawerFallbackText].forEach((field) => {
         field.addEventListener('input', syncPanelPreviewFromInputs);
     });
 
@@ -6172,9 +6438,10 @@
         field.addEventListener('input', syncPanelPreviewFromInputs);
     });
 
-    [mediaSourceInput].forEach((field) => {
-        field.addEventListener('input', syncPanelPreviewFromInputs);
-    });
+    bindAttachmentDropzone(headerImageDropzone, drawerHeaderImage, 'header');
+    bindAttachmentDropzone(mediaSourceDropzone, mediaSourceInput, 'media');
+    removeHeaderImage.addEventListener('click', () => resetAttachment('header'));
+    removeMediaSource.addEventListener('click', () => resetAttachment('media'));
 
     [locationNameInput].forEach((field) => {
         field.addEventListener('input', syncPanelPreviewFromInputs);
@@ -6191,6 +6458,7 @@
     });
 
     mediaTypeSelector.addEventListener('change', () => {
+        resetAttachment('media');
         renderMediaTypeSelector(mediaTypeSelector.value);
         syncPanelPreviewFromInputs();
     });
